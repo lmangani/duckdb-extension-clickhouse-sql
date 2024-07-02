@@ -11,7 +11,13 @@
 // OpenSSL linked through vcpkg
 #include <openssl/opensslv.h>
 
+#include "duckdb/catalog/default/default_functions.hpp"
+
 namespace duckdb {
+
+static DefaultMacro dynamic_sql_macros[] = {
+    {DEFAULT_SCHEMA, "times_two", {"x", nullptr}, "x*2"},
+    {nullptr, nullptr, {nullptr}, nullptr}};
 
 inline void DynamicSqlExamplesScalarFun(DataChunk &args, ExpressionState &state, Vector &result) {
     auto &name_vector = args.data[0];
@@ -42,6 +48,13 @@ static void LoadInternal(DatabaseInstance &instance) {
     auto dynamic_sql_examples_openssl_version_scalar_function = ScalarFunction("dynamic_sql_examples_openssl_version", {LogicalType::VARCHAR},
                                                 LogicalType::VARCHAR, DynamicSqlExamplesOpenSSLVersionScalarFun);
     ExtensionUtil::RegisterFunction(instance, dynamic_sql_examples_openssl_version_scalar_function);
+
+    // macros
+	for (idx_t index = 0; dynamic_sql_macros[index].name != nullptr; index++) {
+		auto info = DefaultFunctionGenerator::CreateInternalMacroInfo(dynamic_sql_macros[index]);
+		ExtensionUtil::RegisterFunction(instance, *info);
+	}
+
 }
 
 void DynamicSqlExamplesExtension::Load(DuckDB &db) {
