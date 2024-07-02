@@ -12,12 +12,22 @@
 #include <openssl/opensslv.h>
 
 #include "duckdb/catalog/default/default_functions.hpp"
+#include "duckdb/catalog/default/default_table_functions.hpp"
 
 namespace duckdb {
 
 static DefaultMacro dynamic_sql_macros[] = {
     {DEFAULT_SCHEMA, "times_two", {"x", nullptr}, "x*2"},
     {nullptr, nullptr, {nullptr}, nullptr}};
+
+// clang-format off
+static const DefaultTableMacro dynamic_sql_table_macros[] = {
+	{DEFAULT_SCHEMA, "times_two_table", {"x", nullptr}, {{"two", "2"}, {nullptr, nullptr}},  R"(
+SELECT x * two as output_column;
+)"},
+	{nullptr, nullptr, {nullptr}, {{nullptr, nullptr}}, nullptr}
+	};
+// clang-format on
 
 inline void DynamicSqlExamplesScalarFun(DataChunk &args, ExpressionState &state, Vector &result) {
     auto &name_vector = args.data[0];
@@ -49,12 +59,16 @@ static void LoadInternal(DatabaseInstance &instance) {
                                                 LogicalType::VARCHAR, DynamicSqlExamplesOpenSSLVersionScalarFun);
     ExtensionUtil::RegisterFunction(instance, dynamic_sql_examples_openssl_version_scalar_function);
 
-    // macros
+    // Macros
 	for (idx_t index = 0; dynamic_sql_macros[index].name != nullptr; index++) {
 		auto info = DefaultFunctionGenerator::CreateInternalMacroInfo(dynamic_sql_macros[index]);
 		ExtensionUtil::RegisterFunction(instance, *info);
 	}
-
+    // Table Macros
+    for (idx_t index = 0; dynamic_sql_table_macros[index].name != nullptr; index++) {
+		auto table_info = DefaultTableFunctionGenerator::CreateTableMacroInfo(dynamic_sql_table_macros[index]);
+        ExtensionUtil::RegisterFunction(instance, *table_info);
+	}
 }
 
 void DynamicSqlExamplesExtension::Load(DuckDB &db) {
