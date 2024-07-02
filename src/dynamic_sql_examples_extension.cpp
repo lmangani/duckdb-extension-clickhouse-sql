@@ -26,7 +26,7 @@ namespace duckdb {
 // If your function has parameters, add their names in quotes inside of the {}, with a nullptr at the end
 //      If you do not have parameters, simplify to {nullptr}
 // Add the text of your SQL macro as a raw string with the format R"( select 42 )"
-static DefaultMacro dynamic_sql_macros[] = {
+static DefaultMacro dynamic_sql_examples_macros[] = {
     {DEFAULT_SCHEMA, "times_two", {"x", nullptr}, R"(x*2)"},
     {nullptr, nullptr, {nullptr}, nullptr}};
 
@@ -46,7 +46,7 @@ static DefaultMacro dynamic_sql_macros[] = {
 // Add the text of your SQL macro as a raw string with the format R"( select 42; )" 
 
 // clang-format off
-static const DefaultTableMacro dynamic_sql_table_macros[] = {
+static const DefaultTableMacro dynamic_sql_examples_table_macros[] = {
 	{DEFAULT_SCHEMA, "times_two_table", {"x", nullptr}, {{"two", "2"}, {nullptr, nullptr}},  R"(SELECT x * two as output_column;)"},
 	{nullptr, nullptr, {nullptr}, {{nullptr, nullptr}}, nullptr}
 	};
@@ -83,13 +83,13 @@ static void LoadInternal(DatabaseInstance &instance) {
     ExtensionUtil::RegisterFunction(instance, dynamic_sql_examples_openssl_version_scalar_function);
 
     // Macros
-	for (idx_t index = 0; dynamic_sql_macros[index].name != nullptr; index++) {
-		auto info = DefaultFunctionGenerator::CreateInternalMacroInfo(dynamic_sql_macros[index]);
+	for (idx_t index = 0; dynamic_sql_examples_macros[index].name != nullptr; index++) {
+		auto info = DefaultFunctionGenerator::CreateInternalMacroInfo(dynamic_sql_examples_macros[index]);
 		ExtensionUtil::RegisterFunction(instance, *info);
 	}
     // Table Macros
-    for (idx_t index = 0; dynamic_sql_table_macros[index].name != nullptr; index++) {
-		auto table_info = DefaultTableFunctionGenerator::CreateTableMacroInfo(dynamic_sql_table_macros[index]);
+    for (idx_t index = 0; dynamic_sql_examples_table_macros[index].name != nullptr; index++) {
+		auto table_info = DefaultTableFunctionGenerator::CreateTableMacroInfo(dynamic_sql_examples_table_macros[index]);
         ExtensionUtil::RegisterFunction(instance, *table_info);
 	}
 }
