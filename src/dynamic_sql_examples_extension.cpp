@@ -16,15 +16,38 @@
 
 namespace duckdb {
 
+// To add a new scalar SQL macro, add a new macro to this array!
+// Copy and paste the top item in the array into the 
+// second-to-last position and make some modifications. 
+// (essentially, leave the last entry in the array as {nullptr, nullptr, {nullptr}, nullptr})
+
+// Keep the DEFAULT_SCHEMA (no change needed)
+// Replace "times_two" with a name for your macro
+// If your function has parameters, add their names in quotes inside of the {}, with a nullptr at the end
+//      If you do not have parameters, simplify to {nullptr}
+// Add the text of your SQL macro as a raw string with the format R"( select 42 )"
 static DefaultMacro dynamic_sql_macros[] = {
-    {DEFAULT_SCHEMA, "times_two", {"x", nullptr}, "x*2"},
+    {DEFAULT_SCHEMA, "times_two", {"x", nullptr}, R"(x*2)"},
     {nullptr, nullptr, {nullptr}, nullptr}};
+
+
+// To add a new table SQL macro, add a new macro to this array!
+// Copy and paste the top item in the array into the 
+// second-to-last position and make some modifications. 
+// (essentially, leave the last entry in the array as {nullptr, nullptr, {nullptr}, nullptr})
+
+// Keep the DEFAULT_SCHEMA (no change needed)
+// Replace "times_two_table" with a name for your macro
+// If your function has parameters without default values, add their names in quotes inside of the {}, with a nullptr at the end
+//      If you do not have parameters, simplify to {nullptr}
+// If your function has parameters with default values, add their names and values in quotes inside of {}'s inside of the {}.
+// Be sure to keep {nullptr, nullptr} at the end
+//      If you do not have parameters with default values, simplify to {nullptr, nullptr}
+// Add the text of your SQL macro as a raw string with the format R"( select 42; )" 
 
 // clang-format off
 static const DefaultTableMacro dynamic_sql_table_macros[] = {
-	{DEFAULT_SCHEMA, "times_two_table", {"x", nullptr}, {{"two", "2"}, {nullptr, nullptr}},  R"(
-SELECT x * two as output_column;
-)"},
+	{DEFAULT_SCHEMA, "times_two_table", {"x", nullptr}, {{"two", "2"}, {nullptr, nullptr}},  R"(SELECT x * two as output_column;)"},
 	{nullptr, nullptr, {nullptr}, {{nullptr, nullptr}}, nullptr}
 	};
 // clang-format on
