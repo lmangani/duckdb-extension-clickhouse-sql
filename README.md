@@ -15,7 +15,13 @@ export VCPKG_TOOLCHAIN_PATH=`pwd`/vcpkg/scripts/buildsystems/vcpkg.cmake
 Note: VCPKG is only required for extensions that want to rely on it for dependency management. If you want to develop an extension without dependencies, or want to do your own dependency management, just skip this step. Note that the example extension uses VCPKG to build with a dependency for instructive purposes, so when skipping this step the build may not work without removing the dependency.
 
 ### Build steps
-Now to build the extension, run:
+Clone the repository and fetch all required submodules:
+```sh
+git clone https://github.com/lmangani/duckdb-extension-clickhouse-sql
+git submodule update --init
+```
+
+Build the extension:
 ```sh
 GEN=ninja make
 ```
