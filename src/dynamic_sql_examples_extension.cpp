@@ -27,9 +27,43 @@ namespace duckdb {
 //      If you do not have parameters, simplify to {nullptr}
 // Add the text of your SQL macro as a raw string with the format R"( select 42 )"
 static DefaultMacro dynamic_sql_examples_macros[] = {
-    {DEFAULT_SCHEMA, "times_two", {"x", nullptr}, R"(x*2)"},
+    {DEFAULT_SCHEMA, "toString", {"expr", nullptr}, R"(CAST($1 AS VARCHAR))"},
+    {DEFAULT_SCHEMA, "toInt8", {"expr", nullptr}, R"(CAST($1 AS INT8))"},
+    {DEFAULT_SCHEMA, "toInt16", {"expr", nullptr}, R"(CAST($1 AS INT16))"},
+    {DEFAULT_SCHEMA, "toInt32", {"expr", nullptr}, R"(CAST($1 AS INT32))"},
+    {DEFAULT_SCHEMA, "toInt64", {"expr", nullptr}, R"(CAST($1 AS INT64))"},
+    {DEFAULT_SCHEMA, "toInt128", {"expr", nullptr}, R"(CAST($1 AS INT128))"},
+    {DEFAULT_SCHEMA, "toInt256", {"expr", nullptr}, R"(CAST($1 AS HUGEINT))"},
+    {DEFAULT_SCHEMA, "toInt8OrZero", {"expr", nullptr}, R"(CASE WHEN TRY_CAST($1 AS INT8) IS NOT NULL THEN CAST($1 AS INT8) ELSE 0 END)"},
+    {DEFAULT_SCHEMA, "toInt16OrZero", {"expr", nullptr}, R"(CASE WHEN TRY_CAST($1 AS INT16) IS NOT NULL THEN CAST($1 AS INT16) ELSE 0 END)"},
+    {DEFAULT_SCHEMA, "toInt32OrZero", {"expr", nullptr}, R"(CASE WHEN TRY_CAST($1 AS INT32) IS NOT NULL THEN CAST($1 AS INT32) ELSE 0 END)"},
+    {DEFAULT_SCHEMA, "toInt64OrZero", {"expr", nullptr}, R"(CASE WHEN TRY_CAST($1 AS INT64) IS NOT NULL THEN CAST($1 AS INT64) ELSE 0 END)"},
+    {DEFAULT_SCHEMA, "toInt128OrZero", {"expr", nullptr}, R"(CASE WHEN TRY_CAST($1 AS INT128) IS NOT NULL THEN CAST($1 AS INT128) ELSE 0 END)"},
+    {DEFAULT_SCHEMA, "toInt256OrZero", {"expr", nullptr}, R"(CASE WHEN TRY_CAST($1 AS HUGEINT) IS NOT NULL THEN CAST($1 AS HUGEINT) ELSE 0 END)"},
+    {DEFAULT_SCHEMA, "toInt8OrNull", {"expr", nullptr}, R"(TRY_CAST($1 AS INT8))"},
+    {DEFAULT_SCHEMA, "toInt16OrNull", {"expr", nullptr}, R"(TRY_CAST($1 AS INT16))"},
+    {DEFAULT_SCHEMA, "toInt32OrNull", {"expr", nullptr}, R"(TRY_CAST($1 AS INT32))"},
+    {DEFAULT_SCHEMA, "toInt64OrNull", {"expr", nullptr}, R"(TRY_CAST($1 AS INT64))"},
+    {DEFAULT_SCHEMA, "toInt128OrNull", {"expr", nullptr}, R"(TRY_CAST($1 AS INT128))"},
+    {DEFAULT_SCHEMA, "toInt256OrNull", {"expr", nullptr}, R"(TRY_CAST($1 AS HUGEINT))"},
+    {DEFAULT_SCHEMA, "toUInt8", {"expr", nullptr}, R"(CAST($1 AS UTINYINT))"},
+    {DEFAULT_SCHEMA, "toUInt16", {"expr", nullptr}, R"(CAST($1 AS USMALLINT))"},
+    {DEFAULT_SCHEMA, "toUInt32", {"expr", nullptr}, R"(CAST($1 AS UINTEGER))"},
+    {DEFAULT_SCHEMA, "toUInt64", {"expr", nullptr}, R"(CAST($1 AS UBIGINT))"},
+    {DEFAULT_SCHEMA, "toUInt8OrZero", {"expr", nullptr}, R"(CASE WHEN TRY_CAST($1 AS UTINYINT) IS NOT NULL THEN CAST($1 AS UTINYINT) ELSE 0 END)"},
+    {DEFAULT_SCHEMA, "toUInt16OrZero", {"expr", nullptr}, R"(CASE WHEN TRY_CAST($1 AS USMALLINT) IS NOT NULL THEN CAST($1 AS USMALLINT) ELSE 0 END)"},
+    {DEFAULT_SCHEMA, "toUInt32OrZero", {"expr", nullptr}, R"(CASE WHEN TRY_CAST($1 AS UINTEGER) IS NOT NULL THEN CAST($1 AS UINTEGER) ELSE 0 END)"},
+    {DEFAULT_SCHEMA, "toUInt64OrZero", {"expr", nullptr}, R"(CASE WHEN TRY_CAST($1 AS UBIGINT) IS NOT NULL THEN CAST($1 AS UBIGINT) ELSE 0 END)"
+    {DEFAULT_SCHEMA, "toUInt8OrNull", {"expr", nullptr}, R"(TRY_CAST($1 AS UTINYINT))"},
+    {DEFAULT_SCHEMA, "toUInt16OrNull", {"expr", nullptr}, R"(TRY_CAST($1 AS USMALLINT))"},
+    {DEFAULT_SCHEMA, "toUInt32OrNull", {"expr", nullptr}, R"(TRY_CAST($1 AS UINTEGER))"},
+    {DEFAULT_SCHEMA, "toUInt64OrNull", {"expr", nullptr}, R"(TRY_CAST($1 AS UBIGINT))"},
+    {DEFAULT_SCHEMA, "toFloat", {"expr", nullptr}, R"(CAST($1 AS DOUBLE))"},
+    {DEFAULT_SCHEMA, "toFloatOrNull", {"expr", nullptr}, R"(TRY_CAST($1 AS DOUBLE))"},
+    {DEFAULT_SCHEMA, "toFloatOrZero", {"expr", nullptr}, R"(CASE WHEN TRY_CAST($1 AS DOUBLE) IS NOT NULL THEN CAST($1 AS DOUBLE) ELSE 0 END)"},
+    {DEFAULT_SCHEMA, "intDiv", {"a", "b"}, R"((CAST($1 AS BIGINT) / CAST($2 AS BIGINT))))"},
+    {DEFAULT_SCHEMA, "match", {"string", "token"}, R"($1 LIKE $2)}"},
     {nullptr, nullptr, {nullptr}, nullptr}};
-
 
 // To add a new table SQL macro, add a new macro to this array!
 // Copy and paste the top item in the array into the 
