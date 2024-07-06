@@ -1,0 +1,33 @@
+# name: test/sql/dynamic_sql_clickhouse.test
+# description: test dynamic_sql_clickhouse extension
+# group: [dynamic_sql_clickhouse]
+
+# Before we load the extension, this will fail
+statement error
+SELECT dynamic_sql_clickhouse('Sam');
+----
+Catalog Error: Scalar Function with name dynamic_sql_clickhouse does not exist!
+
+# Require statement will ensure this test is run with this extension loaded
+require dynamic_sql_clickhouse
+
+# Confirm the extension works
+query I
+SELECT dynamic_sql_clickhouse('Sam');
+----
+DynamicSqlExamples Sam 🐥
+
+query I
+SELECT dynamic_sql_clickhouse_openssl_version('Michael');
+----
+<REGEX>:.*DynamicSqlExamples Michael, my linked OpenSSL version is OpenSSL.*
+
+query I
+SELECT CAST('123' AS VARCHAR)
+----
+123
+
+query I
+SELECT toString('123')
+----
+123
