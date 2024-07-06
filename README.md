@@ -1,11 +1,6 @@
-# Dynamic_sql_clickhouse
+# DuckDB ClickHouse SQL extension
 
-This repository is based on https://github.com/duckdb/extension-template, check it out if you want to build and ship your own DuckDB extension.
-
----
-
-This extension, Dynamic_sql_clickhouse, allow you to ... <extension_goal>.
-
+This DuckDB extension allows aliasing of common ClickHouse SQL functions and commands
 
 ## Building
 ### Managing dependencies
@@ -35,16 +30,7 @@ The main binaries that will be built are:
 ## Running the extension
 To run the extension code, simply start the shell with `./build/release/duckdb`.
 
-Now we can use the features from the extension directly in DuckDB. The template contains a single scalar function `dynamic_sql_clickhouse()` that takes a string arguments and returns a string:
-```
-D select dynamic_sql_clickhouse('Jane') as result;
-┌───────────────┐
-│    result     │
-│    varchar    │
-├───────────────┤
-│ Dynamic_sql_clickhouse Jane 🐥 │
-└───────────────┘
-```
+Now we can use the features from the extension directly in DuckDB. See `/tests/sql` for a list of supported functions.
 
 ## Running the tests
 Different tests can be created for DuckDB extensions. The primary way of testing DuckDB extensions should be the SQL tests in `./test/sql`. These SQL tests can be run using:
