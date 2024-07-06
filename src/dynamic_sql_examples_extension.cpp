@@ -53,7 +53,7 @@ static DefaultMacro dynamic_sql_examples_macros[] = {
     {DEFAULT_SCHEMA, "toUInt8OrZero", {"expr", nullptr}, R"(CASE WHEN TRY_CAST($1 AS UTINYINT) IS NOT NULL THEN CAST($1 AS UTINYINT) ELSE 0 END)"},
     {DEFAULT_SCHEMA, "toUInt16OrZero", {"expr", nullptr}, R"(CASE WHEN TRY_CAST($1 AS USMALLINT) IS NOT NULL THEN CAST($1 AS USMALLINT) ELSE 0 END)"},
     {DEFAULT_SCHEMA, "toUInt32OrZero", {"expr", nullptr}, R"(CASE WHEN TRY_CAST($1 AS UINTEGER) IS NOT NULL THEN CAST($1 AS UINTEGER) ELSE 0 END)"},
-    {DEFAULT_SCHEMA, "toUInt64OrZero", {"expr", nullptr}, R"(CASE WHEN TRY_CAST($1 AS UBIGINT) IS NOT NULL THEN CAST($1 AS UBIGINT) ELSE 0 END)"
+    {DEFAULT_SCHEMA, "toUInt64OrZero", {"expr", nullptr}, R"(CASE WHEN TRY_CAST($1 AS UBIGINT) IS NOT NULL THEN CAST($1 AS UBIGINT) ELSE 0 END)"},
     {DEFAULT_SCHEMA, "toUInt8OrNull", {"expr", nullptr}, R"(TRY_CAST($1 AS UTINYINT))"},
     {DEFAULT_SCHEMA, "toUInt16OrNull", {"expr", nullptr}, R"(TRY_CAST($1 AS USMALLINT))"},
     {DEFAULT_SCHEMA, "toUInt32OrNull", {"expr", nullptr}, R"(TRY_CAST($1 AS UINTEGER))"},
