@@ -23,6 +23,7 @@ jobs:
     with:
       duckdb_version: main
       extension_name: dynamic_sql_clickhouse
+      container: node:14
 
   duckdb-stable-deploy:
     name: Deploy extension binaries
