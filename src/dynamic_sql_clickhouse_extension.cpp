@@ -89,21 +89,21 @@ static const DefaultTableMacro dynamic_sql_clickhouse_table_macros[] = {
 	};
 // clang-format on
 
-inline void DynamicSqlExamplesScalarFun(DataChunk &args, ExpressionState &state, Vector &result) {
+inline void DynamicSqlClickhouseScalarFun(DataChunk &args, ExpressionState &state, Vector &result) {
     auto &name_vector = args.data[0];
     UnaryExecutor::Execute<string_t, string_t>(
 	    name_vector, result, args.size(),
 	    [&](string_t name) {
-			return StringVector::AddString(result, "DynamicSqlExamples "+name.GetString()+" 🐥");;
+			return StringVector::AddString(result, "DynamicSqlClickhouse "+name.GetString()+" 🐥");;
         });
 }
 
-inline void DynamicSqlExamplesOpenSSLVersionScalarFun(DataChunk &args, ExpressionState &state, Vector &result) {
+inline void DynamicSqlClickhouseOpenSSLVersionScalarFun(DataChunk &args, ExpressionState &state, Vector &result) {
     auto &name_vector = args.data[0];
     UnaryExecutor::Execute<string_t, string_t>(
 	    name_vector, result, args.size(),
 	    [&](string_t name) {
-			return StringVector::AddString(result, "DynamicSqlExamples " + name.GetString() +
+			return StringVector::AddString(result, "DynamicSqlClickhouse " + name.GetString() +
                                                      ", my linked OpenSSL version is " +
                                                      OPENSSL_VERSION_TEXT );;
         });
@@ -111,12 +111,12 @@ inline void DynamicSqlExamplesOpenSSLVersionScalarFun(DataChunk &args, Expressio
 
 static void LoadInternal(DatabaseInstance &instance) {
     // Register a scalar function
-    auto dynamic_sql_clickhouse_scalar_function = ScalarFunction("dynamic_sql_clickhouse", {LogicalType::VARCHAR}, LogicalType::VARCHAR, DynamicSqlExamplesScalarFun);
+    auto dynamic_sql_clickhouse_scalar_function = ScalarFunction("dynamic_sql_clickhouse", {LogicalType::VARCHAR}, LogicalType::VARCHAR, DynamicSqlClickhouseScalarFun);
     ExtensionUtil::RegisterFunction(instance, dynamic_sql_clickhouse_scalar_function);
 
     // Register another scalar function
     auto dynamic_sql_clickhouse_openssl_version_scalar_function = ScalarFunction("dynamic_sql_clickhouse_openssl_version", {LogicalType::VARCHAR},
-                                                LogicalType::VARCHAR, DynamicSqlExamplesOpenSSLVersionScalarFun);
+                                                LogicalType::VARCHAR, DynamicSqlClickhouseOpenSSLVersionScalarFun);
     ExtensionUtil::RegisterFunction(instance, dynamic_sql_clickhouse_openssl_version_scalar_function);
 
     // Macros
@@ -131,14 +131,14 @@ static void LoadInternal(DatabaseInstance &instance) {
 	}
 }
 
-void DynamicSqlExamplesExtension::Load(DuckDB &db) {
+void DynamicSqlClickhouseExtension::Load(DuckDB &db) {
 	LoadInternal(*db.instance);
 }
-std::string DynamicSqlExamplesExtension::Name() {
+std::string DynamicSqlClickhouseExtension::Name() {
 	return "dynamic_sql_clickhouse";
 }
 
-std::string DynamicSqlExamplesExtension::Version() const {
+std::string DynamicSqlClickhouseExtension::Version() const {
 #ifdef EXT_VERSION_DYNAMIC_SQL_CLICKHOUSE
 	return EXT_VERSION_DYNAMIC_SQL_CLICKHOUSE;
 #else
@@ -152,7 +152,7 @@ extern "C" {
 
 DUCKDB_EXTENSION_API void dynamic_sql_clickhouse_init(duckdb::DatabaseInstance &db) {
     duckdb::DuckDB db_wrapper(db);
-    db_wrapper.LoadExtension<duckdb::DynamicSqlExamplesExtension>();
+    db_wrapper.LoadExtension<duckdb::DynamicSqlClickhouseExtension>();
 }
 
 DUCKDB_EXTENSION_API const char *dynamic_sql_clickhouse_version() {

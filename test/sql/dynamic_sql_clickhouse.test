@@ -13,14 +13,14 @@ require dynamic_sql_clickhouse
 
 # Confirm the extension works
 query I
-SELECT dynamic_sql_clickhouse('Sam');
+SELECT dynamic_sql_clickhouse('Works');
 ----
-DynamicSqlExamples Sam 🐥
+DynamicSqlClickhouse Works 🐥
 
 query I
-SELECT dynamic_sql_clickhouse_openssl_version('Michael');
+SELECT dynamic_sql_clickhouse_openssl_version('Hello');
 ----
-<REGEX>:.*DynamicSqlExamples Michael, my linked OpenSSL version is OpenSSL.*
+<REGEX>:.*DynamicSqlClickhouse Hello, my linked OpenSSL version is OpenSSL.*
 
 query I
 SELECT CAST('123' AS VARCHAR)

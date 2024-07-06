@@ -4,7 +4,7 @@
 
 namespace duckdb {
 
-class DynamicSqlExamplesExtension : public Extension {
+class DynamicSqlClickhouseExtension : public Extension {
 public:
 	void Load(DuckDB &db) override;
 	std::string Name() override;
