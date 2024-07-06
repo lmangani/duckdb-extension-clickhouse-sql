@@ -23,11 +23,176 @@ SELECT dynamic_sql_clickhouse_openssl_version('Hello');
 <REGEX>:.*DynamicSqlClickhouse Hello, my linked OpenSSL version is OpenSSL.*
 
 query I
-SELECT CAST('123' AS VARCHAR)
+SELECT toString('123')
 ----
 123
 
 query I
-SELECT toString('123')
+SELECT toInt8('123')
 ----
 123
+
+query I
+SELECT toInt16('123')
+----
+123
+
+query I
+SELECT toInt32('123')
+----
+123
+
+query I
+SELECT toInt64('123')
+----
+123
+
+query I
+SELECT toInt128('123')
+----
+123
+
+query I
+SELECT toInt256('123')
+----
+123
+
+query I
+SELECT toInt8OrZero(-1)
+----
+-1
+
+query I
+SELECT toInt16OrZero(-1)
+----
+-1
+
+query I
+SELECT toInt32OrZero(-1)
+----
+-1
+
+query I
+SELECT toInt64OrZero(-1)
+----
+-1
+
+query I
+SELECT toInt128OrZero(-1)
+----
+-1
+
+query I
+SELECT toInt256OrZero(-1)
+----
+-1
+
+query I
+SELECT toInt8OrZero('notanumber')
+----
+0
+
+query I
+SELECT toInt16OrZero('notanumber')
+----
+0
+
+query I
+SELECT toInt32OrZero('notanumber')
+----
+0
+
+query I
+SELECT toInt64OrZero('notanumber')
+----
+0
+
+query I
+SELECT toInt128OrZero('notanumber')
+----
+0
+
+query I
+SELECT toInt256OrZero('notanumber')
+----
+0
+
+query I
+SELECT toUInt8('123')
+----
+123
+
+query I
+SELECT toUInt16('123')
+----
+123
+
+query I
+SELECT toUInt32('123')
+----
+123
+
+query I
+SELECT toUInt64('123')
+----
+123
+
+query I
+SELECT toUInt8OrZero(-1)
+----
+0
+
+query I
+SELECT toUInt16OrZero(-1)
+----
+0
+
+query I
+SELECT toUInt32OrZero(-1)
+----
+0
+
+query I
+SELECT toUInt64OrZero(-1)
+----
+0
+
+query I
+SELECT toUInt8OrZero('notanumber')
+----
+0
+
+query I
+SELECT toUInt16OrZero('notanumber')
+----
+0
+
+query I
+SELECT toUInt32OrZero('notanumber')
+----
+0
+
+query I
+SELECT toUInt64OrZero('notanumber')
+----
+0
+
+query I
+SELECT toFloat('123.45')
+----
+123.45
+
+query I
+SELECT toFloatOrNull('notanumber')
+----
+NULL
+
+query I
+SELECT toFloatOrZero('notanumber')
+----
+0
+
+query I
+SELECT intDiv(4, 2)
+----
+2
