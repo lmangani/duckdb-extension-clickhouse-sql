@@ -1,11 +1,10 @@
-# Dynamic_sql_clickhouse
+# dynamic_sql_clickhouse
 
 This repository is based on https://github.com/duckdb/extension-template, check it out if you want to build and ship your own DuckDB extension.
 
 ---
 
-This extension, Dynamic_sql_clickhouse, allow you to ... <extension_goal>.
-
+This extension allows aliasing of common ClickHouse SQL functions in DuckDB SQL
 
 ## Building
 ### Managing dependencies
