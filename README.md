@@ -1,10 +1,10 @@
-# Dynamic_sql_examples
+# Dynamic_sql_clickhouse
 
 This repository is based on https://github.com/duckdb/extension-template, check it out if you want to build and ship your own DuckDB extension.
 
 ---
 
-This extension, Dynamic_sql_examples, allow you to ... <extension_goal>.
+This extension, Dynamic_sql_clickhouse, allow you to ... <extension_goal>.
 
 
 ## Building
@@ -26,23 +26,23 @@ The main binaries that will be built are:
 ```sh
 ./build/release/duckdb
 ./build/release/test/unittest
-./build/release/extension/dynamic_sql_examples/dynamic_sql_examples.duckdb_extension
+./build/release/extension/dynamic_sql_clickhouse/dynamic_sql_clickhouse.duckdb_extension
 ```
 - `duckdb` is the binary for the duckdb shell with the extension code automatically loaded.
 - `unittest` is the test runner of duckdb. Again, the extension is already linked into the binary.
-- `dynamic_sql_examples.duckdb_extension` is the loadable binary as it would be distributed.
+- `dynamic_sql_clickhouse.duckdb_extension` is the loadable binary as it would be distributed.
 
 ## Running the extension
 To run the extension code, simply start the shell with `./build/release/duckdb`.
 
-Now we can use the features from the extension directly in DuckDB. The template contains a single scalar function `dynamic_sql_examples()` that takes a string arguments and returns a string:
+Now we can use the features from the extension directly in DuckDB. The template contains a single scalar function `dynamic_sql_clickhouse()` that takes a string arguments and returns a string:
 ```
-D select dynamic_sql_examples('Jane') as result;
+D select dynamic_sql_clickhouse('Jane') as result;
 ┌───────────────┐
 │    result     │
 │    varchar    │
 ├───────────────┤
-│ Dynamic_sql_examples Jane 🐥 │
+│ Dynamic_sql_clickhouse Jane 🐥 │
 └───────────────┘
 ```
 
@@ -81,6 +81,6 @@ DuckDB. To specify a specific version, you can pass the version instead.
 
 After running these steps, you can install and load your extension using the regular INSTALL/LOAD commands in DuckDB:
 ```sql
-INSTALL dynamic_sql_examples
-LOAD dynamic_sql_examples
+INSTALL dynamic_sql_clickhouse
+LOAD dynamic_sql_clickhouse
 ```
