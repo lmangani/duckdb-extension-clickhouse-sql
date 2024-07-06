@@ -1,3 +1,5 @@
+<img src="https://github.com/lmangani/duckdb-extension-clickhouse-sql/assets/1423657/144dc202-f88a-4a2b-903d-51e30be75f6a" width=200>
+
 # DuckDB ClickHouse SQL extension
 
 This DuckDB extension allows aliasing of common ClickHouse SQL functions and commands
