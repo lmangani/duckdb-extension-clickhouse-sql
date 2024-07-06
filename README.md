@@ -15,7 +15,7 @@ Note: VCPKG is only required for extensions that want to rely on it for dependen
 ### Build steps
 Now to build the extension, run:
 ```sh
-make
+GEN=ninja make
 ```
 The main binaries that will be built are:
 ```sh
