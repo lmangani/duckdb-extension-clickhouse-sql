@@ -17,7 +17,6 @@ Note: VCPKG is only required for extensions that want to rely on it for dependen
 ### Build steps
 Clone the repository and fetch all required submodules:
 ```sh
-git clone https://github.com/lmangani/duckdb-extension-clickhouse-sql
 git submodule update --init
 ```
 
