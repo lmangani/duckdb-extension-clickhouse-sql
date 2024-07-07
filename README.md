@@ -4,6 +4,10 @@
 
 This DuckDB extension allows aliasing of common ClickHouse SQL functions and commands
 
+⭐ designed for [Quackpipe](https://github.com/metrico/quackpipe) 
+
+<br>
+
 ## Building
 ### Managing dependencies
 DuckDB extensions uses VCPKG for dependency management. Enabling VCPKG is very simple: follow the [installation instructions](https://vcpkg.io/en/getting-started) or just run the following:
