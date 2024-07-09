@@ -11,8 +11,8 @@
 // OpenSSL linked through vcpkg
 #include <openssl/opensslv.h>
 
-#include "duckdb/catalog/default/default_functions.hpp"
-#include "duckdb/catalog/default/default_table_functions.hpp"
+#include "default_functions.hpp"
+#include "default_table_functions.hpp"
 
 namespace duckdb {
 
