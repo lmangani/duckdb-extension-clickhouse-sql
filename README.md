@@ -2,9 +2,28 @@
 
 # DuckDB ClickHouse SQL extension
 
-This DuckDB extension allows aliasing of common ClickHouse SQL functions and commands
-
 ⭐ designed for [Quackpipe](https://github.com/metrico/quackpipe) 
+
+This extension allows queries in DuckDB using familiar ClickHouse syntax, making it easier to transition between the two database systems.
+
+## Examples
+```sql
+-- Type conversion
+SELECT toInt32(123456789) as int32;
+SELECT toUInt64(1234567890123) as uint64;
+
+-- Default values
+SELECT toInt64OrZero('abc') as int64_or_zero;
+SELECT toFloatOrNull('abc') as float_or_null;
+
+-- Arithmetic
+SELECT intDiv(10, 3) as int_div;
+
+-- String matching
+SELECT match('hello world', '%world%') as match_result;
+```
+
+Find more examples in the [tests]([test/sql/chsql.sql](https://github.com/lmangani/duckdb-extension-clickhouse-sql/blob/main/test/sql/chsql.test)) and [source code](https://github.com/lmangani/duckdb-extension-clickhouse-sql/blob/main/src/chsql_extension.cpp#L31). _Contributions and fixes are extremely welcome!_
 
 <br>
 
