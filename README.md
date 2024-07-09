@@ -2,9 +2,21 @@
 
 # DuckDB ClickHouse SQL extension
 
-This DuckDB extension implements various macros using ClickHouse SQL syntax, making it easier to transition between the two database systems ⭐ designed for [Quackpipe](https://github.com/metrico/quackpipe) 
+This DuckDB extension implements various macros using ClickHouse SQL syntax, making it easier<br>
+to transition between the two database systems ⭐ designed for [Quackpipe](https://github.com/metrico/quackpipe) 
 
-## Examples
+<br>
+
+## Installation
+
+**chsql** is distributed as a [DuckDB Community Extension](https://github.com/duckdb/community-extensions) and can be installed using SQL:
+
+```sql
+INSTALL chsql FROM community;
+LOAD chsql;
+```
+
+## Usage Examples
 ```sql
 -- Type conversion
 SELECT toInt32(123456789) as int32;
@@ -66,6 +78,7 @@ Different tests can be created for DuckDB extensions. The primary way of testing
 make test
 ```
 
+<!--
 ### Installing the deployed binaries
 To install your extension binaries from S3, you will need to do two things. Firstly, DuckDB should be launched with the
 `allow_unsigned_extensions` option set to true. How to set this will depend on the client you're using. Some examples:
@@ -98,3 +111,5 @@ After running these steps, you can install and load your extension using the reg
 INSTALL dynamic_sql_clickhouse
 LOAD dynamic_sql_clickhouse
 ```
+
+-->
