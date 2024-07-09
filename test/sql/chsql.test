@@ -1,26 +1,26 @@
-# name: test/sql/dynamic_sql_clickhouse.test
-# description: test dynamic_sql_clickhouse extension
-# group: [dynamic_sql_clickhouse]
+# name: test/sql/chsql.test
+# description: test chsql extension
+# group: [chsql]
 
 # Before we load the extension, this will fail
 statement error
-SELECT dynamic_sql_clickhouse('Sam');
+SELECT chsql('Sam');
 ----
-Catalog Error: Scalar Function with name dynamic_sql_clickhouse does not exist!
+Catalog Error: Scalar Function with name chsql does not exist!
 
 # Require statement will ensure this test is run with this extension loaded
-require dynamic_sql_clickhouse
+require chsql
 
 # Confirm the extension works
 query I
-SELECT dynamic_sql_clickhouse('Works');
+SELECT chsql('Works');
 ----
-DynamicSqlClickhouse Works 🐥
+ChSql Works 🐥
 
 query I
-SELECT dynamic_sql_clickhouse_openssl_version('Hello');
+SELECT chsql_openssl_version('Hello');
 ----
-<REGEX>:.*DynamicSqlClickhouse Hello, my linked OpenSSL version is OpenSSL.*
+<REGEX>:.*ChSql Hello, my linked OpenSSL version is OpenSSL.*
 
 query I
 SELECT toString('123')
