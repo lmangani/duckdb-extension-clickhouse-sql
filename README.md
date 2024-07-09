@@ -2,9 +2,7 @@
 
 # DuckDB ClickHouse SQL extension
 
-⭐ designed for [Quackpipe](https://github.com/metrico/quackpipe) 
-
-This extension allows queries in DuckDB using familiar ClickHouse syntax, making it easier to transition between the two database systems.
+This DuckDB extension implements various macros using ClickHouse SQL syntax, making it easier to transition between the two database systems ⭐ designed for [Quackpipe](https://github.com/metrico/quackpipe) 
 
 ## Examples
 ```sql
