@@ -1,6 +1,6 @@
 #define DUCKDB_EXTENSION_MAIN
 
-#include "dynamic_sql_clickhouse_extension.hpp"
+#include "chsql_extension.hpp"
 #include "duckdb.hpp"
 #include "duckdb/common/exception.hpp"
 #include "duckdb/common/string_util.hpp"
@@ -28,7 +28,7 @@ namespace duckdb {
 // Add the text of your SQL macro as a raw string with the format R"( select 42 )"
 
 
-static DefaultMacro dynamic_sql_clickhouse_macros[] = {
+static DefaultMacro chsql_macros[] = {
     {DEFAULT_SCHEMA, "times_two", {"x", nullptr}, R"(x*2)"},
     {DEFAULT_SCHEMA, "toString", {"x", nullptr}, R"(CAST(x AS VARCHAR))"},
     {DEFAULT_SCHEMA, "toInt8", {"x", nullptr}, R"(CAST(x AS INT8))"},
@@ -83,27 +83,27 @@ static DefaultMacro dynamic_sql_clickhouse_macros[] = {
 // Add the text of your SQL macro as a raw string with the format R"( select 42; )" 
 
 // clang-format off
-static const DefaultTableMacro dynamic_sql_clickhouse_table_macros[] = {
+static const DefaultTableMacro chsql_table_macros[] = {
 	{DEFAULT_SCHEMA, "times_two_table", {"x", nullptr}, {{"two", "2"}, {nullptr, nullptr}},  R"(SELECT x * two as output_column;)"},
 	{nullptr, nullptr, {nullptr}, {{nullptr, nullptr}}, nullptr}
 	};
 // clang-format on
 
-inline void DynamicSqlClickhouseScalarFun(DataChunk &args, ExpressionState &state, Vector &result) {
+inline void ChSqlScalarFun(DataChunk &args, ExpressionState &state, Vector &result) {
     auto &name_vector = args.data[0];
     UnaryExecutor::Execute<string_t, string_t>(
 	    name_vector, result, args.size(),
 	    [&](string_t name) {
-			return StringVector::AddString(result, "DynamicSqlClickhouse "+name.GetString()+" 🐥");;
+			return StringVector::AddString(result, "ChSql "+name.GetString()+" 🐥");;
         });
 }
 
-inline void DynamicSqlClickhouseOpenSSLVersionScalarFun(DataChunk &args, ExpressionState &state, Vector &result) {
+inline void ChSqlOpenSSLVersionScalarFun(DataChunk &args, ExpressionState &state, Vector &result) {
     auto &name_vector = args.data[0];
     UnaryExecutor::Execute<string_t, string_t>(
 	    name_vector, result, args.size(),
 	    [&](string_t name) {
-			return StringVector::AddString(result, "DynamicSqlClickhouse " + name.GetString() +
+			return StringVector::AddString(result, "ChSql " + name.GetString() +
                                                      ", my linked OpenSSL version is " +
                                                      OPENSSL_VERSION_TEXT );;
         });
@@ -111,36 +111,36 @@ inline void DynamicSqlClickhouseOpenSSLVersionScalarFun(DataChunk &args, Express
 
 static void LoadInternal(DatabaseInstance &instance) {
     // Register a scalar function
-    auto dynamic_sql_clickhouse_scalar_function = ScalarFunction("dynamic_sql_clickhouse", {LogicalType::VARCHAR}, LogicalType::VARCHAR, DynamicSqlClickhouseScalarFun);
-    ExtensionUtil::RegisterFunction(instance, dynamic_sql_clickhouse_scalar_function);
+    auto chsql_scalar_function = ScalarFunction("chsql", {LogicalType::VARCHAR}, LogicalType::VARCHAR, ChSqlScalarFun);
+    ExtensionUtil::RegisterFunction(instance, chsql_scalar_function);
 
     // Register another scalar function
-    auto dynamic_sql_clickhouse_openssl_version_scalar_function = ScalarFunction("dynamic_sql_clickhouse_openssl_version", {LogicalType::VARCHAR},
-                                                LogicalType::VARCHAR, DynamicSqlClickhouseOpenSSLVersionScalarFun);
-    ExtensionUtil::RegisterFunction(instance, dynamic_sql_clickhouse_openssl_version_scalar_function);
+    auto chsql_openssl_version_scalar_function = ScalarFunction("chsql_openssl_version", {LogicalType::VARCHAR},
+                                                LogicalType::VARCHAR, ChSqlOpenSSLVersionScalarFun);
+    ExtensionUtil::RegisterFunction(instance, chsql_openssl_version_scalar_function);
 
     // Macros
-	for (idx_t index = 0; dynamic_sql_clickhouse_macros[index].name != nullptr; index++) {
-		auto info = DefaultFunctionGenerator::CreateInternalMacroInfo(dynamic_sql_clickhouse_macros[index]);
+	for (idx_t index = 0; chsql_macros[index].name != nullptr; index++) {
+		auto info = DefaultFunctionGenerator::CreateInternalMacroInfo(chsql_macros[index]);
 		ExtensionUtil::RegisterFunction(instance, *info);
 	}
     // Table Macros
-    for (idx_t index = 0; dynamic_sql_clickhouse_table_macros[index].name != nullptr; index++) {
-		auto table_info = DefaultTableFunctionGenerator::CreateTableMacroInfo(dynamic_sql_clickhouse_table_macros[index]);
+    for (idx_t index = 0; chsql_table_macros[index].name != nullptr; index++) {
+		auto table_info = DefaultTableFunctionGenerator::CreateTableMacroInfo(chsql_table_macros[index]);
         ExtensionUtil::RegisterFunction(instance, *table_info);
 	}
 }
 
-void DynamicSqlClickhouseExtension::Load(DuckDB &db) {
+void ChsqlExtension::Load(DuckDB &db) {
 	LoadInternal(*db.instance);
 }
-std::string DynamicSqlClickhouseExtension::Name() {
-	return "dynamic_sql_clickhouse";
+std::string ChsqlExtension::Name() {
+	return "chsql";
 }
 
-std::string DynamicSqlClickhouseExtension::Version() const {
-#ifdef EXT_VERSION_DYNAMIC_SQL_CLICKHOUSE
-	return EXT_VERSION_DYNAMIC_SQL_CLICKHOUSE;
+std::string ChsqlExtension::Version() const {
+#ifdef EXT_VERSION_CHSQL
+	return EXT_VERSION_CHSQL;
 #else
 	return "";
 #endif
@@ -150,12 +150,12 @@ std::string DynamicSqlClickhouseExtension::Version() const {
 
 extern "C" {
 
-DUCKDB_EXTENSION_API void dynamic_sql_clickhouse_init(duckdb::DatabaseInstance &db) {
+DUCKDB_EXTENSION_API void chsql_init(duckdb::DatabaseInstance &db) {
     duckdb::DuckDB db_wrapper(db);
-    db_wrapper.LoadExtension<duckdb::DynamicSqlClickhouseExtension>();
+    db_wrapper.LoadExtension<duckdb::ChsqlExtension>();
 }
 
-DUCKDB_EXTENSION_API const char *dynamic_sql_clickhouse_version() {
+DUCKDB_EXTENSION_API const char *chsql_version() {
 	return duckdb::DuckDB::LibraryVersion();
 }
 }
