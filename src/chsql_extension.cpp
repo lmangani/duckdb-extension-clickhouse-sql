@@ -30,6 +30,7 @@ namespace duckdb {
 
 static DefaultMacro chsql_macros[] = {
     {DEFAULT_SCHEMA, "times_two", {"x", nullptr}, R"(x*2)"},
+    // -- Type conversion macros
     {DEFAULT_SCHEMA, "toString", {"x", nullptr}, R"(CAST(x AS VARCHAR))"},
     {DEFAULT_SCHEMA, "toInt8", {"x", nullptr}, R"(CAST(x AS INT8))"},
     {DEFAULT_SCHEMA, "toInt16", {"x", nullptr}, R"(CAST(x AS INT16))"},
@@ -49,6 +50,7 @@ static DefaultMacro chsql_macros[] = {
     {DEFAULT_SCHEMA, "toInt64OrNull", {"x", nullptr}, R"(TRY_CAST(x AS INT64))"},
     {DEFAULT_SCHEMA, "toInt128OrNull", {"x", nullptr}, R"(TRY_CAST(x AS INT128))"},
     {DEFAULT_SCHEMA, "toInt256OrNull", {"x", nullptr}, R"(TRY_CAST(x AS HUGEINT))"},
+    // -- Unsigned integer conversion macros
     {DEFAULT_SCHEMA, "toUInt8", {"x", nullptr}, R"(CAST(x AS UTINYINT))"},
     {DEFAULT_SCHEMA, "toUInt16", {"x", nullptr}, R"(CAST(x AS USMALLINT))"},
     {DEFAULT_SCHEMA, "toUInt32", {"x", nullptr}, R"(CAST(x AS UINTEGER))"},
@@ -61,16 +63,22 @@ static DefaultMacro chsql_macros[] = {
     {DEFAULT_SCHEMA, "toUInt16OrNull", {"x", nullptr}, R"(TRY_CAST(x AS USMALLINT))"}, // And here
     {DEFAULT_SCHEMA, "toUInt32OrNull", {"x", nullptr}, R"(TRY_CAST(x AS UINTEGER))"}, // Also here
     {DEFAULT_SCHEMA, "toUInt64OrNull", {"x", nullptr}, R"(TRY_CAST(x AS UBIGINT))"}, // And here
+    // -- Floating-point conversion macros
     {DEFAULT_SCHEMA, "toFloat", {"x", nullptr}, R"(CAST(x AS DOUBLE))"},
     {DEFAULT_SCHEMA, "toFloatOrNull", {"x", nullptr}, R"(TRY_CAST(x AS DOUBLE))"},
     {DEFAULT_SCHEMA, "toFloatOrZero", {"x", nullptr}, R"(CASE WHEN TRY_CAST(x AS DOUBLE) IS NOT NULL THEN CAST(x AS DOUBLE) ELSE 0 END)"},
+    // -- Arithmetic macros
     {DEFAULT_SCHEMA, "intDiv", {"a", "b"}, R"((CAST(a AS BIGINT) / CAST(b AS BIGINT)))"},
+    // -- String matching macros
     {DEFAULT_SCHEMA, "match", {"string", "token"}, R"(string LIKE token)"},
+    // -- Array macros
+    {DEFAULT_SCHEMA, "arrayExists", {"needle", "haystack"}, R"(haystack @> ARRAY[needle])"},
+    {DEFAULT_SCHEMA, "arrayMap", {"e", "arr"}, R"(array_transform(arr, e -> (e * e)))"},
     {nullptr, nullptr, {nullptr}, nullptr}};
 
 // To add a new table SQL macro, add a new macro to this array!
-// Copy and paste the top item in the array into the 
-// second-to-last position and make some modifications. 
+// Copy and paste the top item in the array into the
+// second-to-last position and make some modifications.
 // (essentially, leave the last entry in the array as {nullptr, nullptr, {nullptr}, nullptr})
 
 // Keep the DEFAULT_SCHEMA (no change needed)
@@ -80,7 +88,7 @@ static DefaultMacro chsql_macros[] = {
 // If your function has parameters with default values, add their names and values in quotes inside of {}'s inside of the {}.
 // Be sure to keep {nullptr, nullptr} at the end
 //      If you do not have parameters with default values, simplify to {nullptr, nullptr}
-// Add the text of your SQL macro as a raw string with the format R"( select 42; )" 
+// Add the text of your SQL macro as a raw string with the format R"( select 42; )"
 
 // clang-format off
 static const DefaultTableMacro chsql_table_macros[] = {
