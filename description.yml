@@ -14,7 +14,6 @@ repo:
 
 docs:
   hello_world: |
-    SELECT toString('world') as hello;
+    SELECT toString('world') as hello, toInt8OrZero('world') as zero;
   extended_description: |
     This extension provides a growing number of Clickhouse SQL Macros for DuckDB. 
-    
