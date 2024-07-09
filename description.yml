@@ -1,0 +1,20 @@
+extension:
+  name: chsql
+  description: Clickhouse SQL Aliases for DuckDB
+  version: 1.0.0
+  language: C++
+  build: cmake
+  license: MIT
+  maintainers:
+    - lmangani
+
+repo:
+  github: lmangani/duckdb-extension-clickhouse-sql
+  ref: e3024a76df741864696010130f72c79cbad2274d
+
+docs:
+  hello_world: |
+    SELECT toString('world') as hello;
+  extended_description: |
+    This extension provides a growing number of Clickhouse SQL function Aliases for DuckDB. 
+    
