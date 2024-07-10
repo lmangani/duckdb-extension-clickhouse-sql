@@ -80,9 +80,9 @@ tupleplus(main.list_value(1, 2), main.list_value(2, 3))
 
 ### Submit a PR
 
-- If you're an SQL wizard, just add your new function(s) to the `aliases.sql` index for testing and validation.
-- If you're a developer, implement the new function(s) directly in the [source code](chsql_macros) and submit a full PR.
-- If you're a pro, you can also implement a test case for your new function(s) in the `tests/sql` directory.
+- If you're an SQL wizard, just open an issue with your proposal for testing, validation and implementation.
+- If you're a Developer, implement the new function(s) directly in the [source code](chsql_macros) and submit a full PR.
+- If you're a Saint, you can also implement a test case for your new function(s) in the `tests/sql` directory.
 
 <br>
 
