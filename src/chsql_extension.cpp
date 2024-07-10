@@ -69,6 +69,7 @@ static DefaultMacro chsql_macros[] = {
     {DEFAULT_SCHEMA, "toFloatOrZero", {"x", nullptr}, R"(CASE WHEN TRY_CAST(x AS DOUBLE) IS NOT NULL THEN CAST(x AS DOUBLE) ELSE 0 END)"},
     // -- Arithmetic macros
     {DEFAULT_SCHEMA, "intDiv", {"a", "b"}, R"((CAST(a AS BIGINT) // CAST(b AS BIGINT)))"},
+    {DEFAULT_SCHEMA, "tupleDivide", {"a", "b"}, R"(apply(a, (x,i) -> apply(b, x -> CAST(x AS BIGINT))[i] // CAST(x AS BIGINT)))"},
     // -- String matching macros
     {DEFAULT_SCHEMA, "match", {"string", "token"}, R"(string LIKE token)"},
     // -- Array macros
