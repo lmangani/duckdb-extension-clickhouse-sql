@@ -29,7 +29,6 @@ namespace duckdb {
 
 
 static DefaultMacro chsql_macros[] = {
-    {DEFAULT_SCHEMA, "times_two", {"x", nullptr}, R"(x*2)"},
     // -- Type conversion macros
     {DEFAULT_SCHEMA, "toString", {"x", nullptr}, R"(CAST(x AS VARCHAR))"},
     {DEFAULT_SCHEMA, "toInt8", {"x", nullptr}, R"(CAST(x AS INT8))"},
@@ -69,11 +68,16 @@ static DefaultMacro chsql_macros[] = {
     {DEFAULT_SCHEMA, "toFloatOrZero", {"x", nullptr}, R"(CASE WHEN TRY_CAST(x AS DOUBLE) IS NOT NULL THEN CAST(x AS DOUBLE) ELSE 0 END)"},
     // -- Arithmetic macros
     {DEFAULT_SCHEMA, "intDiv", {"a", "b"}, R"((CAST(a AS BIGINT) // CAST(b AS BIGINT)))"},
-    {DEFAULT_SCHEMA, "tupleDivide", {"a", "b"}, R"(apply(a, (x,i) -> apply(b, x -> CAST(x AS BIGINT))[i] // CAST(x AS BIGINT)))"},
+    {DEFAULT_SCHEMA, "tupleIntDiv", {"a", "b"}, R"(apply(a, (x,i) -> apply(b, x -> CAST(x AS BIGINT))[i] // CAST(x AS BIGINT)))"},
+    {DEFAULT_SCHEMA, "tupleIntDivByNumber", {"a", "b"}, R"(apply(a, (x) -> CAST(apply(b, x -> CAST(x AS BIGINT))[1] as BIGINT) // CAST(x AS BIGINT)))"},
+    {DEFAULT_SCHEMA, "tupleDivide", {"a", "b"}, R"(apply(a, (x,i) -> apply(b, x -> CAST(x AS BIGINT))[i] / CAST(x AS BIGINT)))"},
     {DEFAULT_SCHEMA, "tupleMultiply", {"a", "b"}, R"(apply(a, (x,i) -> CAST(apply(b, x -> CAST(x AS BIGINT))[i] as BIGINT) * CAST(x AS BIGINT)))"},
     {DEFAULT_SCHEMA, "tupleMinus", {"a", "b"}, R"(apply(a, (x,i) -> apply(b, x -> CAST(x AS BIGINT))[i] - CAST(x AS BIGINT)))"},
     {DEFAULT_SCHEMA, "tuplePlus", {"a", "b"}, R"(apply(a, (x,i) -> apply(b, x -> CAST(x AS BIGINT))[i] + CAST(x AS BIGINT)))"},
     {DEFAULT_SCHEMA, "tupleMultiplyByNumber", {"a", "b"}, R"(apply(a, (x) -> CAST(apply(b, x -> CAST(x AS BIGINT))[1] as BIGINT) * CAST(x AS BIGINT)))"},
+    {DEFAULT_SCHEMA, "tupleDivideByNumber", {"a", "b"}, R"(apply(a, (x) -> CAST(apply(b, x -> CAST(x AS BIGINT))[1] as BIGINT) / CAST(x AS BIGINT)))"},
+    {DEFAULT_SCHEMA, "tupleModulo", {"a", "b"}, R"(apply(a, (x) -> CAST(apply(b, x -> CAST(x AS BIGINT))[1] as BIGINT) ** CAST(x AS BIGINT)))"},
+    {DEFAULT_SCHEMA, "tupleModuloByNumber", {"a", "b"}, R"(apply(a, (x) -> CAST(apply(b, x -> CAST(x AS BIGINT))[1] as BIGINT) ** CAST(x AS BIGINT)))"},
     // -- String matching macros
     {DEFAULT_SCHEMA, "match", {"string", "token"}, R"(string LIKE token)"},
     // -- Array macros
