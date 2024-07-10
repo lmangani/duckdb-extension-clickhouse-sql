@@ -38,8 +38,13 @@ CREATE OR REPLACE MACRO toFloat(expr) AS CAST(expr AS DOUBLE);
 CREATE OR REPLACE MACRO toFloatOrNull(expr) AS TRY_CAST(expr AS DOUBLE);
 CREATE OR REPLACE MACRO toFloatOrZero(expr) AS COALESCE(TRY_CAST(expr AS DOUBLE), 0);
 -- Arithmetic macros
-CREATE OR REPLACE MACRO intDiv(a, b) AS (a / b);
+CREATE OR REPLACE MACRO intDiv(a, b) AS (CAST(a AS BIGINT) // CAST(b AS BIGINT));
 CREATE OR REPLACE MACRO intDivOrZero(a, b) AS COALESCE((a / b), 0);
+CREATE OR REPLACE MACRO tupleDivide(a, b) AS (apply(a, (x,i) -> apply(b, x -> CAST(x AS BIGINT))[i] // CAST(x AS BIGINT)));
+CREATE OR REPLACE MACRO tupleMinus(a, b) AS (apply(a, (x,i) -> apply(b, x -> CAST(x AS BIGINT))[i] - CAST(x AS BIGINT)));
+CREATE OR REPLACE MACRO tuplePlus(a, b) AS (apply(a, (x,i) -> apply(b, x -> CAST(x AS BIGINT))[i] + CAST(x AS BIGINT)));
+CREATE OR REPLACE MACRO tupleMultiply(a, b) AS (apply(a, (x,i) -> CAST(apply(b, x -> CAST(x AS BIGINT))[i] as BIGINT) * CAST(x AS BIGINT)));
+CREATE OR REPLACE MACRO tupleMultiplyByNumber(a, b) AS (apply(a, (x) -> CAST(apply(b, x -> CAST(x AS BIGINT))[1] as BIGINT) * CAST(x AS BIGINT)));
 -- String matching macro
 CREATE OR REPLACE MACRO match(string, token) AS (string LIKE token);
 -- Array macros
