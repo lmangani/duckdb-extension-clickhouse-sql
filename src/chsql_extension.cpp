@@ -70,6 +70,10 @@ static DefaultMacro chsql_macros[] = {
     // -- Arithmetic macros
     {DEFAULT_SCHEMA, "intDiv", {"a", "b"}, R"((CAST(a AS BIGINT) // CAST(b AS BIGINT)))"},
     {DEFAULT_SCHEMA, "tupleDivide", {"a", "b"}, R"(apply(a, (x,i) -> apply(b, x -> CAST(x AS BIGINT))[i] // CAST(x AS BIGINT)))"},
+    {DEFAULT_SCHEMA, "tupleMultiply", {"a", "b"}, R"(apply(a, (x,i) -> CAST(apply(b, x -> CAST(x AS BIGINT))[i] as BIGINT) * CAST(x AS BIGINT)))"},
+    {DEFAULT_SCHEMA, "tupleMinus", {"a", "b"}, R"(apply(a, (x,i) -> apply(b, x -> CAST(x AS BIGINT))[i] - CAST(x AS BIGINT)))"},
+    {DEFAULT_SCHEMA, "tuplePlus", {"a", "b"}, R"(apply(a, (x,i) -> apply(b, x -> CAST(x AS BIGINT))[i] + CAST(x AS BIGINT)))"},
+    {DEFAULT_SCHEMA, "tupleMultiplyByNumber", {"a", "b"}, R"(apply(a, (x) -> CAST(apply(b, x -> CAST(x AS BIGINT))[1] as BIGINT) * CAST(x AS BIGINT)))"},
     // -- String matching macros
     {DEFAULT_SCHEMA, "match", {"string", "token"}, R"(string LIKE token)"},
     // -- Array macros
