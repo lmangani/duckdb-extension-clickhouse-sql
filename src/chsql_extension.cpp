@@ -68,6 +68,15 @@ static DefaultMacro chsql_macros[] = {
     {DEFAULT_SCHEMA, "toFloatOrZero", {"x", nullptr}, R"(CASE WHEN TRY_CAST(x AS DOUBLE) IS NOT NULL THEN CAST(x AS DOUBLE) ELSE 0 END)"},
     // -- Arithmetic macros
     {DEFAULT_SCHEMA, "intDiv", {"a", "b"}, R"((CAST(a AS BIGINT) // CAST(b AS BIGINT)))"},
+    {DEFAULT_SCHEMA, "intDivOrNull", {"a", "b"}, R"(TRY_CAST((TRY_CAST(a AS BIGINT) // TRY_CAST(b AS BIGINT)) AS BIGINT))"},
+    {DEFAULT_SCHEMA, "intDivOZero", {"x", nullptr}, R"(COALESCE((TRY_CAST((TRY_CAST(a AS BIGINT) // TRY_CAST(b AS BIGINT)) AS BIGINT)),0))"},
+    {DEFAULT_SCHEMA, "plus", {"a", "b"}, R"(CAST(a AS BIGINT) + CAST(b AS BIGINT))"},
+    {DEFAULT_SCHEMA, "minus", {"a", "b"}, R"(CAST(a AS BIGINT) - CAST(b AS BIGINT))"},
+    {DEFAULT_SCHEMA, "multiply", {"a", "b"}, R"(CAST(a AS BIGINT) * CAST(b AS BIGINT))"},
+    {DEFAULT_SCHEMA, "divide", {"a", "b"}, R"(CAST(a AS BIGINT) / CAST(b AS BIGINT))"},
+    {DEFAULT_SCHEMA, "modulo", {"a", "b"}, R"(CAST(a AS BIGINT) ** CAST(b AS BIGINT))"},
+    {DEFAULT_SCHEMA, "moduloOrZero", {"a", "b"}, R"(COALESCE(((TRY_CAST(a AS BIGINT) ** TRY_CAST(b AS BIGINT))),0))"},
+    // -- Tuple macros
     {DEFAULT_SCHEMA, "tupleIntDiv", {"a", "b"}, R"(apply(a, (x,i) -> apply(b, x -> CAST(x AS BIGINT))[i] // CAST(x AS BIGINT)))"},
     {DEFAULT_SCHEMA, "tupleIntDivByNumber", {"a", "b"}, R"(apply(a, (x) -> CAST(apply(b, x -> CAST(x AS BIGINT))[1] as BIGINT) // CAST(x AS BIGINT)))"},
     {DEFAULT_SCHEMA, "tupleDivide", {"a", "b"}, R"(apply(a, (x,i) -> apply(b, x -> CAST(x AS BIGINT))[i] / CAST(x AS BIGINT)))"},
@@ -78,6 +87,7 @@ static DefaultMacro chsql_macros[] = {
     {DEFAULT_SCHEMA, "tupleDivideByNumber", {"a", "b"}, R"(apply(a, (x) -> CAST(apply(b, x -> CAST(x AS BIGINT))[1] as BIGINT) / CAST(x AS BIGINT)))"},
     {DEFAULT_SCHEMA, "tupleModulo", {"a", "b"}, R"(apply(a, (x) -> CAST(apply(b, x -> CAST(x AS BIGINT))[1] as BIGINT) ** CAST(x AS BIGINT)))"},
     {DEFAULT_SCHEMA, "tupleModuloByNumber", {"a", "b"}, R"(apply(a, (x) -> CAST(apply(b, x -> CAST(x AS BIGINT))[1] as BIGINT) ** CAST(x AS BIGINT)))"},
+    {DEFAULT_SCHEMA, "tupleConcat", {"a", "b"}, R"(list_concat(a, b))"},
     // -- String matching macros
     {DEFAULT_SCHEMA, "match", {"string", "token"}, R"(string LIKE token)"},
     // -- Array macros
