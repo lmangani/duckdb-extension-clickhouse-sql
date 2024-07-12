@@ -109,7 +109,8 @@ static DefaultMacro chsql_macros[] = {
 
 // clang-format off
 static const DefaultTableMacro chsql_table_macros[] = {
-	{DEFAULT_SCHEMA, "times_two_table", {"x", nullptr}, {{"two", "2"}, {nullptr, nullptr}},  R"(SELECT x * two as output_column;)"},
+	{DEFAULT_SCHEMA, "tableMultiply", {"x", nullptr}, {{"two", "2"}, {nullptr, nullptr}},  R"(SELECT x * two as output_column;)"},
+        {DEFAULT_SCHEMA, "numbers", {"x", nullptr}, {{"z", "0"}, {nullptr, nullptr}},  R"(SELECT * as number FROM generate_series(z,x);)"},
 	{nullptr, nullptr, {nullptr}, {{nullptr, nullptr}}, nullptr}
 	};
 // clang-format on
