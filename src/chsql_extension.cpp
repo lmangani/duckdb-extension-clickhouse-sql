@@ -91,6 +91,8 @@ static DefaultMacro chsql_macros[] = {
     // -- Array macros
     {DEFAULT_SCHEMA, "arrayExists", {"needle", "haystack"}, R"(haystack @> ARRAY[needle])"},
     {DEFAULT_SCHEMA, "arrayMap", {"e", "arr"}, R"(array_transform(arr, e -> (e * e)))"},
+    // -- Misc macros
+    {DEFAULT_SCHEMA, "generateUUIDv4", {nullptr}, R"(toString(uuid()))"},
     {nullptr, nullptr, {nullptr}, nullptr}};
 
 // To add a new table SQL macro, add a new macro to this array!
