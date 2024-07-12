@@ -70,10 +70,8 @@ static DefaultMacro chsql_macros[] = {
     {DEFAULT_SCHEMA, "intDiv", {"a", "b"}, R"((CAST(a AS BIGINT) // CAST(b AS BIGINT)))"},
     {DEFAULT_SCHEMA, "intDivOrNull", {"a", "b"}, R"(TRY_CAST((TRY_CAST(a AS BIGINT) // TRY_CAST(b AS BIGINT)) AS BIGINT))"},
     {DEFAULT_SCHEMA, "intDivOZero", {"x", nullptr}, R"(COALESCE((TRY_CAST((TRY_CAST(a AS BIGINT) // TRY_CAST(b AS BIGINT)) AS BIGINT)),0))"},
-    {DEFAULT_SCHEMA, "plus", {"a", "b"}, R"(CAST(a AS BIGINT) + CAST(b AS BIGINT))"},
-    {DEFAULT_SCHEMA, "minus", {"a", "b"}, R"(CAST(a AS BIGINT) - CAST(b AS BIGINT))"},
-    {DEFAULT_SCHEMA, "multiply", {"a", "b"}, R"(CAST(a AS BIGINT) * CAST(b AS BIGINT))"},
-    {DEFAULT_SCHEMA, "divide", {"a", "b"}, R"(CAST(a AS BIGINT) / CAST(b AS BIGINT))"},
+    {DEFAULT_SCHEMA, "plus", {"a", "b"}, R"(add(a, b))"},
+    {DEFAULT_SCHEMA, "minus", {"a", "b"}, R"(subtract(a, b))"},
     {DEFAULT_SCHEMA, "modulo", {"a", "b"}, R"(CAST(a AS BIGINT) ** CAST(b AS BIGINT))"},
     {DEFAULT_SCHEMA, "moduloOrZero", {"a", "b"}, R"(COALESCE(((TRY_CAST(a AS BIGINT) ** TRY_CAST(b AS BIGINT))),0))"},
     // -- Tuple macros
