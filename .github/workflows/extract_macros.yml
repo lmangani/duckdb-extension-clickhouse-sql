@@ -1,0 +1,26 @@
+name: Extract Macros
+
+on:
+   release:
+     published:
+
+jobs:
+  bench:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v4
+    - name: Extract Macros
+      run: |
+        grep -oP '{DEFAULT_SCHEMA, "\K[^"]*|, R"\K[^"]*' ./src/chsql_extension.cpp | awk 'NR%2{printf "%s ", $0; next} 1' | grep -v ^"times_" > /tmp/macros.md
+    - name: Summary Report
+      run: |
+        echo "" >> $GITHUB_STEP_SUMMARY
+        echo "### Supported Macros" >> $GITHUB_STEP_SUMMARY
+        cat /tmp/macros.md >> $GITHUB_STEP_SUMMARY
+    - name: Add Test Report to Release
+      uses: irongut/EditRelease@v1.2.0
+      with:
+        token: ${{ secrets.GITHUB_TOKEN }}
+        id: ${{ github.event.release.id }}
+        body: $GITHUB_STEP_SUMMARY
+        files: "/tmp/macros.md"
