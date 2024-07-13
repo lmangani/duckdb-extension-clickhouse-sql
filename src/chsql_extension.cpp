@@ -27,9 +27,7 @@ namespace duckdb {
 //      If you do not have parameters, simplify to {nullptr}
 // Add the text of your SQL macro as a raw string with the format R"( select 42 )"
 
-
 static DefaultMacro chsql_macros[] = {
-    {DEFAULT_SCHEMA, "times_two", {"x", nullptr}, R"(x*2)"},
     // -- Type conversion macros
     {DEFAULT_SCHEMA, "toString", {"x", nullptr}, R"(CAST(x AS VARCHAR))"},
     {DEFAULT_SCHEMA, "toInt8", {"x", nullptr}, R"(CAST(x AS INT8))"},
@@ -69,11 +67,63 @@ static DefaultMacro chsql_macros[] = {
     {DEFAULT_SCHEMA, "toFloatOrZero", {"x", nullptr}, R"(CASE WHEN TRY_CAST(x AS DOUBLE) IS NOT NULL THEN CAST(x AS DOUBLE) ELSE 0 END)"},
     // -- Arithmetic macros
     {DEFAULT_SCHEMA, "intDiv", {"a", "b"}, R"((CAST(a AS BIGINT) // CAST(b AS BIGINT)))"},
+    {DEFAULT_SCHEMA, "intDivOrNull", {"a", "b"}, R"(TRY_CAST((TRY_CAST(a AS BIGINT) // TRY_CAST(b AS BIGINT)) AS BIGINT))"},
+    {DEFAULT_SCHEMA, "intDivOZero", {"x", nullptr}, R"(COALESCE((TRY_CAST((TRY_CAST(a AS BIGINT) // TRY_CAST(b AS BIGINT)) AS BIGINT)),0))"},
+    {DEFAULT_SCHEMA, "plus", {"a", "b"}, R"(add(a, b))"},
+    {DEFAULT_SCHEMA, "minus", {"a", "b"}, R"(subtract(a, b))"},
+    {DEFAULT_SCHEMA, "modulo", {"a", "b"}, R"(CAST(a AS BIGINT) % CAST(b AS BIGINT))"},
+    {DEFAULT_SCHEMA, "moduloOrZero", {"a", "b"}, R"(COALESCE(((TRY_CAST(a AS BIGINT) % TRY_CAST(b AS BIGINT))),0))"},
+    // -- Tuple macros
+    {DEFAULT_SCHEMA, "tupleIntDiv", {"a", "b"}, R"(apply(a, (x,i) -> apply(b, x -> CAST(x AS BIGINT))[i] // CAST(x AS BIGINT)))"},
+    {DEFAULT_SCHEMA, "tupleIntDivByNumber", {"a", "b"}, R"(apply(a, (x) -> CAST(apply(b, x -> CAST(x AS BIGINT))[1] as BIGINT) // CAST(x AS BIGINT)))"},
+    {DEFAULT_SCHEMA, "tupleDivide", {"a", "b"}, R"(apply(a, (x,i) -> apply(b, x -> CAST(x AS BIGINT))[i] / CAST(x AS BIGINT)))"},
+    {DEFAULT_SCHEMA, "tupleMultiply", {"a", "b"}, R"(apply(a, (x,i) -> CAST(apply(b, x -> CAST(x AS BIGINT))[i] as BIGINT) * CAST(x AS BIGINT)))"},
+    {DEFAULT_SCHEMA, "tupleMinus", {"a", "b"}, R"(apply(a, (x,i) -> apply(b, x -> CAST(x AS BIGINT))[i] - CAST(x AS BIGINT)))"},
+    {DEFAULT_SCHEMA, "tuplePlus", {"a", "b"}, R"(apply(a, (x,i) -> apply(b, x -> CAST(x AS BIGINT))[i] + CAST(x AS BIGINT)))"},
+    {DEFAULT_SCHEMA, "tupleMultiplyByNumber", {"a", "b"}, R"(apply(a, (x) -> CAST(apply(b, x -> CAST(x AS BIGINT))[1] as BIGINT) * CAST(x AS BIGINT)))"},
+    {DEFAULT_SCHEMA, "tupleDivideByNumber", {"a", "b"}, R"(apply(a, (x) -> CAST(apply(b, x -> CAST(x AS BIGINT))[1] as BIGINT) / CAST(x AS BIGINT)))"},
+    {DEFAULT_SCHEMA, "tupleModulo", {"a", "b"}, R"(apply(a, (x) -> CAST(apply(b, x -> CAST(x AS BIGINT))[1] as BIGINT) % CAST(x AS BIGINT)))"},
+    {DEFAULT_SCHEMA, "tupleModuloByNumber", {"a", "b"}, R"(apply(a, (x) -> CAST(apply(b, x -> CAST(x AS BIGINT))[1] as BIGINT) % CAST(x AS BIGINT)))"},
+    {DEFAULT_SCHEMA, "tupleConcat", {"a", "b"}, R"(list_concat(a, b))"},
     // -- String matching macros
     {DEFAULT_SCHEMA, "match", {"string", "token"}, R"(string LIKE token)"},
     // -- Array macros
     {DEFAULT_SCHEMA, "arrayExists", {"needle", "haystack"}, R"(haystack @> ARRAY[needle])"},
     {DEFAULT_SCHEMA, "arrayMap", {"e", "arr"}, R"(array_transform(arr, e -> (e * e)))"},
+    // Date and Time Functions
+    {DEFAULT_SCHEMA, "toYear", {"date_expression", nullptr}, R"(EXTRACT(YEAR FROM date_expression))"},
+    {DEFAULT_SCHEMA, "toMonth", {"date_expression", nullptr}, R"(EXTRACT(MONTH FROM date_expression))"},
+    {DEFAULT_SCHEMA, "toDayOfMonth", {"date_expression", nullptr}, R"(EXTRACT(DAY FROM date_expression))"},
+    {DEFAULT_SCHEMA, "toHour", {"date_expression", nullptr}, R"(EXTRACT(HOUR FROM date_expression))"},
+    {DEFAULT_SCHEMA, "toMinute", {"date_expression", nullptr}, R"(EXTRACT(MINUTE FROM date_expression))"},
+    {DEFAULT_SCHEMA, "toSecond", {"date_expression", nullptr}, R"(EXTRACT(SECOND FROM date_expression))"},
+    {DEFAULT_SCHEMA, "toYYYYMM", {"date_expression", nullptr}, R"(DATE_FORMAT(date_expression, '%Y%m'))"},
+    {DEFAULT_SCHEMA, "toYYYYMMDD", {"date_expression", nullptr}, R"(DATE_FORMAT(date_expression, '%Y%m%d'))"},
+    {DEFAULT_SCHEMA, "toYYYYMMDDhhmmss", {"date_expression", nullptr}, R"(DATE_FORMAT(date_expression, '%Y%m%d%H%M%S'))"},
+    {DEFAULT_SCHEMA, "formatDateTime", {"time", "format", "timezone", nullptr}, R"(CASE  WHEN timezone IS NULL THEN strftime(time, format) ELSE strftime(time AT TIME ZONE timezone, format) END)"},
+    // String Functions
+    {DEFAULT_SCHEMA, "empty", {"str", nullptr}, R"(LENGTH(str) = 0)"},
+    {DEFAULT_SCHEMA, "notEmpty", {"str", nullptr}, R"(LENGTH(str) > 0)"},
+    {DEFAULT_SCHEMA, "lengthUTF8", {"str", nullptr}, R"(LENGTH(str))"},
+    {DEFAULT_SCHEMA, "leftPad", {"str", "length", "pad_str", nullptr}, R"(LPAD(str, length, pad_str))"},
+    {DEFAULT_SCHEMA, "rightPad", {"str", "length", "pad_str", nullptr}, R"(RPAD(str, length, pad_str))"},
+    {DEFAULT_SCHEMA, "extractAllGroups", {"text", "pattern", nullptr}, R"(regexp_extract_all(text, pattern))"},
+    {DEFAULT_SCHEMA, "toFixedString", {"str", "length", nullptr}, R"(RPAD(LEFT(str, length), length, '\0'))"},
+    {DEFAULT_SCHEMA, "ifNull", {"x", "y", nullptr}, R"(COALESCE(x, y))"},
+    {DEFAULT_SCHEMA, "arrayJoin", {"arr", nullptr}, R"(UNNEST(arr))"},
+    {DEFAULT_SCHEMA, "splitByChar", {"separator", "str", nullptr}, R"(string_split(str, separator))"},
+    // URL Functions
+    {DEFAULT_SCHEMA, "protocol", {"url", nullptr}, R"(REGEXP_EXTRACT(url, '^(\w+)://', 1))"},
+    {DEFAULT_SCHEMA, "domain", {"url", nullptr}, R"(REGEXP_EXTRACT(url, '://([^/]+)', 1))"},
+    {DEFAULT_SCHEMA, "topLevelDomain", {"url", nullptr}, R"(REGEXP_EXTRACT(url, '\.([^./:]+)([:/]|$)', 1))"},
+    {DEFAULT_SCHEMA, "path", {"url", nullptr}, R"(REGEXP_EXTRACT(url, '://[^/]+(/.*)', 1))"},
+    // IP Address Functions
+    {DEFAULT_SCHEMA, "IPv4NumToString", {"num", nullptr}, R"(CONCAT(CAST((num >> 24) & 255 AS VARCHAR), '.', CAST((num >> 16) & 255 AS VARCHAR), '.', CAST((num >> 8) & 255 AS VARCHAR), '.', CAST(num & 255 AS VARCHAR)))"},
+    {DEFAULT_SCHEMA, "IPv4StringToNum", {"ip", nullptr}, R"(CAST(SPLIT_PART(ip, '.', 1) AS INTEGER) * 256 * 256 * 256 + CAST(SPLIT_PART(ip, '.', 2) AS INTEGER) * 256 * 256 + CAST(SPLIT_PART(ip, '.', 3) AS INTEGER) * 256 + CAST(SPLIT_PART(ip, '.', 4) AS INTEGER))"},
+    // -- Misc macros
+    {DEFAULT_SCHEMA, "generateUUIDv4", {nullptr}, R"(toString(uuid()))"},
+    {DEFAULT_SCHEMA, "parseURL", {"url", "part", nullptr}, R"(CASE part WHEN 'protocol' THEN REGEXP_EXTRACT(url, '^(\w+)://') WHEN 'domain' THEN REGEXP_EXTRACT(url, '://([^/:]+)') WHEN 'port' THEN REGEXP_EXTRACT(url, ':(\d+)') WHEN 'path' THEN REGEXP_EXTRACT(url, '://[^/]+(/.+?)(\?|#|$)') WHEN 'query' THEN REGEXP_EXTRACT(url, '\?([^#]+)') WHEN 'fragment' THEN REGEXP_EXTRACT(url, '#(.+)$') END)"},
+    {DEFAULT_SCHEMA, "bitCount", {"num", nullptr}, R"(BIT_COUNT(num))"},
     {nullptr, nullptr, {nullptr}, nullptr}};
 
 // To add a new table SQL macro, add a new macro to this array!
@@ -92,7 +142,8 @@ static DefaultMacro chsql_macros[] = {
 
 // clang-format off
 static const DefaultTableMacro chsql_table_macros[] = {
-	{DEFAULT_SCHEMA, "times_two_table", {"x", nullptr}, {{"two", "2"}, {nullptr, nullptr}},  R"(SELECT x * two as output_column;)"},
+	{DEFAULT_SCHEMA, "tableMultiply", {"x", nullptr}, {{"two", "2"}, {nullptr, nullptr}},  R"(SELECT x * two as output_column;)"},
+        {DEFAULT_SCHEMA, "numbers", {"x", nullptr}, {{"z", "0"}, {nullptr, nullptr}},  R"(SELECT * as number FROM generate_series(z,x-1);)"},
 	{nullptr, nullptr, {nullptr}, {{nullptr, nullptr}}, nullptr}
 	};
 // clang-format on

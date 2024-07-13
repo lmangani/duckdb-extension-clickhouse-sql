@@ -138,6 +138,87 @@ SELECT toUInt64('123')
 123
 
 query I
+SELECT toInt8OrZero(-1)
+----
+-1
+
+query I
+SELECT toInt16OrZero(-1)
+----
+-1
+
+query I
+SELECT toInt32OrZero(-1)
+----
+-1
+
+query I
+SELECT toInt64OrZero(-1)
+----
+-1
+
+query I
+SELECT toInt128OrZero(-1)
+----
+-1
+
+query I
+SELECT toInt256OrZero(-1)
+----
+-1
+
+query I
+SELECT toInt8OrZero('notanumber')
+----
+0
+
+query I
+SELECT toInt16OrZero('notanumber')
+----
+0
+
+query I
+SELECT toInt32OrZero('notanumber')
+----
+0
+
+query I
+SELECT toInt64OrZero('notanumber')
+----
+0
+
+query I
+SELECT toInt128OrZero('notanumber')
+----
+0
+
+query I
+SELECT toInt256OrZero('notanumber')
+----
+0
+
+# Unsigned integer conversion macros
+query I
+SELECT toUInt8('123')
+----
+123
+
+query I
+SELECT toUInt16('123')
+----
+123
+
+query I
+SELECT toUInt32('123')
+----
+123
+
+query I
+SELECT toUInt64('123')
+----
+123
+
+query I
 SELECT toUInt8OrZero(-1)
 ----
 0
@@ -177,6 +258,7 @@ SELECT toUInt64OrZero('notanumber')
 ----
 0
 
+# Floating-point conversion macros
 query I
 SELECT toFloat('123.45')
 ----
@@ -192,7 +274,115 @@ SELECT toFloatOrZero('notanumber')
 ----
 0
 
+# Arithmetic macros
 query I
-SELECT intDiv(4, 2)
+SELECT intDiv(5, 2)
 ----
 2
+
+query I
+SELECT intDivOrNull(5, 2)
+----
+2
+
+query I
+SELECT intDivOrNull(5, 0)
+----
+NULL
+
+query I
+SELECT plus(3, 4)
+----
+7
+
+query I
+SELECT minus(7, 3)
+----
+4
+
+query I
+SELECT modulo(10, 3)
+----
+1
+
+# String matching macros
+query I
+SELECT match('hello world', '%world%')
+----
+true
+
+# Array macros
+query I
+SELECT arrayExists(3, [1, 2, 3, 4, 5])
+----
+true
+
+# Date and Time Functions
+query I
+SELECT toYear('2023-05-15'::DATE)
+----
+2023
+
+query I
+SELECT toMonth('2023-05-15'::DATE)
+----
+5
+
+query I
+SELECT toDayOfMonth('2023-05-15'::DATE)
+----
+15
+
+# String Functions
+query I
+SELECT empty('')
+----
+true
+
+query I
+SELECT notEmpty('hello')
+----
+true
+
+query I
+SELECT lengthUTF8('hello')
+----
+5
+
+query I
+SELECT leftPad('123', 5, '0')
+----
+00123
+
+# URL Functions
+query I
+SELECT protocol('https://example.com/path')
+----
+https
+
+query I
+SELECT domain('https://example.com/path')
+----
+example.com
+
+# IP Address Functions
+query I
+SELECT IPv4NumToString(167772161)  -- 10.0.0.1
+----
+10.0.0.1
+
+query I
+SELECT IPv4StringToNum('10.0.0.1')
+----
+167772161
+
+# Misc macros
+query I
+SELECT hex(255)
+----
+FF
+
+query I
+SELECT bitCount(7)  -- Binary: 111
+----
+3
