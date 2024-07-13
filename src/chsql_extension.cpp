@@ -123,7 +123,6 @@ static DefaultMacro chsql_macros[] = {
     // -- Misc macros
     {DEFAULT_SCHEMA, "generateUUIDv4", {nullptr}, R"(toString(uuid()))"},
     {DEFAULT_SCHEMA, "parseURL", {"url", "part", nullptr}, R"(CASE part WHEN 'protocol' THEN REGEXP_EXTRACT(url, '^(\w+)://') WHEN 'domain' THEN REGEXP_EXTRACT(url, '://([^/:]+)') WHEN 'port' THEN REGEXP_EXTRACT(url, ':(\d+)') WHEN 'path' THEN REGEXP_EXTRACT(url, '://[^/]+(/.+?)(\?|#|$)') WHEN 'query' THEN REGEXP_EXTRACT(url, '\?([^#]+)') WHEN 'fragment' THEN REGEXP_EXTRACT(url, '#(.+)$') END)"},
-    {DEFAULT_SCHEMA, "hex", {"num", nullptr}, R"(TO_HEX(num))"},
     {DEFAULT_SCHEMA, "unhex", {"str", nullptr}, R"(CAST(('x' || str) AS BLOB))"},
     {DEFAULT_SCHEMA, "bitCount", {"num", nullptr}, R"(BIT_COUNT(num))"},
     {nullptr, nullptr, {nullptr}, nullptr}};
