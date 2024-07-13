@@ -91,6 +91,28 @@ static DefaultMacro chsql_macros[] = {
     // -- Array macros
     {DEFAULT_SCHEMA, "arrayExists", {"needle", "haystack"}, R"(haystack @> ARRAY[needle])"},
     {DEFAULT_SCHEMA, "arrayMap", {"e", "arr"}, R"(array_transform(arr, e -> (e * e)))"},
+    // Date and Time Functions
+    {DEFAULT_SCHEMA, "toYear", {"date_expression", nullptr}, R"(EXTRACT(YEAR FROM date_expression))"},
+    {DEFAULT_SCHEMA, "toMonth", {"date_expression", nullptr}, R"(EXTRACT(MONTH FROM date_expression))"},
+    {DEFAULT_SCHEMA, "toDayOfMonth", {"date_expression", nullptr}, R"(EXTRACT(DAY FROM date_expression))"},
+    {DEFAULT_SCHEMA, "toHour", {"date_expression", nullptr}, R"(EXTRACT(HOUR FROM date_expression))"},
+    {DEFAULT_SCHEMA, "toMinute", {"date_expression", nullptr}, R"(EXTRACT(MINUTE FROM date_expression))"},
+    {DEFAULT_SCHEMA, "toSecond", {"date_expression", nullptr}, R"(EXTRACT(SECOND FROM date_expression))"},
+    // String Functions
+    {DEFAULT_SCHEMA, "empty", {"str", nullptr}, R"(LENGTH(str) = 0)"},
+    {DEFAULT_SCHEMA, "notEmpty", {"str", nullptr}, R"(LENGTH(str) > 0)"},
+    {DEFAULT_SCHEMA, "lengthUTF8", {"str", nullptr}, R"(LENGTH(str))"},
+    {DEFAULT_SCHEMA, "lower", {"str", nullptr}, R"(LOWER(str))"},
+    {DEFAULT_SCHEMA, "upper", {"str", nullptr}, R"(UPPER(str))"},
+    {DEFAULT_SCHEMA, "reverse", {"str", nullptr}, R"(REVERSE(str))"},
+    // URL Functions
+    {DEFAULT_SCHEMA, "protocol", {"url", nullptr}, R"(REGEXP_EXTRACT(url, '^(\w+)://'))"},
+    {DEFAULT_SCHEMA, "domain", {"url", nullptr}, R"(REGEXP_EXTRACT(url, '://([^/]+)'))"},
+    {DEFAULT_SCHEMA, "topLevelDomain", {"url", nullptr}, R"(REGEXP_EXTRACT(url, '\.([^./:]+)([:/]|$)'))"},
+    {DEFAULT_SCHEMA, "path", {"url", nullptr}, R"(REGEXP_EXTRACT(url, '://[^/]+(/.*)'))"},
+    // IP Address Functions
+    {DEFAULT_SCHEMA, "IPv4NumToString", {"num", nullptr}, R"(CONCAT(CAST((num >> 24) & 255 AS VARCHAR), '.', CAST((num >> 16) & 255 AS VARCHAR), '.', CAST((num >> 8) & 255 AS VARCHAR), '.', CAST(num & 255 AS VARCHAR)))"},
+    {DEFAULT_SCHEMA, "IPv4StringToNum", {"ip", nullptr}, R"(CAST(SPLIT_PART(ip, '.', 1) AS INTEGER) * 256 * 256 * 256 + CAST(SPLIT_PART(ip, '.', 2) AS INTEGER) * 256 * 256 + CAST(SPLIT_PART(ip, '.', 3) AS INTEGER) * 256 + CAST(SPLIT_PART(ip, '.', 4) AS INTEGER))"},
     // -- Misc macros
     {DEFAULT_SCHEMA, "generateUUIDv4", {nullptr}, R"(toString(uuid()))"},
     {nullptr, nullptr, {nullptr}, nullptr}};
