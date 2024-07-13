@@ -1,7 +1,7 @@
 extension:
   name: chsql
   description: Clickhouse SQL Macros for DuckDB
-  version: 1.0.0
+  version: 1.0.2
   language: C++
   build: cmake
   license: MIT
@@ -10,7 +10,7 @@ extension:
 
 repo:
   github: lmangani/duckdb-extension-clickhouse-sql
-  ref: 21c240ec0cbef00d5928083f5fc936ec42542911
+  ref: 3a81f48b9ea4262eaaa5c40076ad4e6202065472
 
 docs:
   hello_world: |
