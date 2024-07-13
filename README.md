@@ -19,29 +19,30 @@ LOAD chsql;
 ```
 
 If you previously installed the `chsql` extension, upgrade using the FORCE command
-```
+```sql
 FORCE INSTALL chsql FROM community;
+LOAD chsql;
 ```
 
+## Supported Functions
+
+The [list of supported functions](https://community-extensions.duckdb.org/extensions/chsql.html#added-functions) is available on the [dedicated extension page](https://community-extensions.duckdb.org/extensions/chsql.html). 
 
 ## Usage Examples
+Once installed, macro functions provided by the extension can be used just like built-in functions.
+
 ```sql
--- Type conversion
-SELECT toInt32(123456789) as int32;
-SELECT toUInt64(1234567890123) as uint64;
-
--- Default values
-SELECT toInt64OrZero('abc') as int64_or_zero;
-SELECT toFloatOrNull('abc') as float_or_null;
-
--- Arithmetic
-SELECT intDiv(10, 3) as int_div;
-
--- String matching
-SELECT match('hello world', '%world%') as match_result;
+D INSTALL chsql FROM community;
+D LOAD chsql;
+D SELECT IPv4StringToNum('127.0.0.1'), IPv4NumToString(2130706433);
+┌──────────────────────────────┬─────────────────────────────┐
+│ ipv4stringtonum('127.0.0.1') │ ipv4numtostring(2130706433) │
+│            int32             │           varchar           │
+├──────────────────────────────┼─────────────────────────────┤
+│                   2130706433 │ 127.0.0.1                   │
+└──────────────────────────────┴─────────────────────────────┘
 ```
 
-Find a [full list of supported functions](https://community-extensions.duckdb.org/extensions/chsql.html#added-functions) on the [extension page](https://community-extensions.duckdb.org/extensions/chsql.html). 
 
 <br>
 
