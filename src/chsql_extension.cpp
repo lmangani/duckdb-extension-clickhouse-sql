@@ -114,9 +114,9 @@ static DefaultMacro chsql_macros[] = {
     {DEFAULT_SCHEMA, "splitByChar", {"separator", "str", nullptr}, R"(string_split(str, separator))"},
     // URL Functions
     {DEFAULT_SCHEMA, "protocol", {"url", nullptr}, R"(REGEXP_EXTRACT(url, '^(\w+)://', 1))"},
-    {DEFAULT_SCHEMA, "domain", {"url", nullptr}, R"(REGEXP_EXTRACT(url, '://([^/]+)'))"},
-    {DEFAULT_SCHEMA, "topLevelDomain", {"url", nullptr}, R"(REGEXP_EXTRACT(url, '\.([^./:]+)([:/]|$)'))"},
-    {DEFAULT_SCHEMA, "path", {"url", nullptr}, R"(REGEXP_EXTRACT(url, '://[^/]+(/.*)'))"},
+    {DEFAULT_SCHEMA, "domain", {"url", nullptr}, R"(REGEXP_EXTRACT(url, '://([^/]+)', 1))"},
+    {DEFAULT_SCHEMA, "topLevelDomain", {"url", nullptr}, R"(REGEXP_EXTRACT(url, '\.([^./:]+)([:/]|$)', 1))"},
+    {DEFAULT_SCHEMA, "path", {"url", nullptr}, R"(REGEXP_EXTRACT(url, '://[^/]+(/.*)', 1))"},
     // IP Address Functions
     {DEFAULT_SCHEMA, "IPv4NumToString", {"num", nullptr}, R"(CONCAT(CAST((num >> 24) & 255 AS VARCHAR), '.', CAST((num >> 16) & 255 AS VARCHAR), '.', CAST((num >> 8) & 255 AS VARCHAR), '.', CAST(num & 255 AS VARCHAR)))"},
     {DEFAULT_SCHEMA, "IPv4StringToNum", {"ip", nullptr}, R"(CAST(SPLIT_PART(ip, '.', 1) AS INTEGER) * 256 * 256 * 256 + CAST(SPLIT_PART(ip, '.', 2) AS INTEGER) * 256 * 256 + CAST(SPLIT_PART(ip, '.', 3) AS INTEGER) * 256 + CAST(SPLIT_PART(ip, '.', 4) AS INTEGER))"},
