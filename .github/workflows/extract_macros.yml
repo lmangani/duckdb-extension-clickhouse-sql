@@ -17,10 +17,3 @@ jobs:
         echo "" >> $GITHUB_STEP_SUMMARY
         echo "### Supported Macros" >> $GITHUB_STEP_SUMMARY
         cat /tmp/macros.md >> $GITHUB_STEP_SUMMARY
-    - name: Add Test Report to Release
-      uses: irongut/EditRelease@v1.2.0
-      with:
-        token: ${{ secrets.GITHUB_TOKEN }}
-        id: ${{ github.event.release.id }}
-        body: $GITHUB_STEP_SUMMARY
-        files: "/tmp/macros.md"
