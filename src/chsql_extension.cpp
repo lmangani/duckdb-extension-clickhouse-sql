@@ -102,9 +102,6 @@ static DefaultMacro chsql_macros[] = {
     {DEFAULT_SCHEMA, "empty", {"str", nullptr}, R"(LENGTH(str) = 0)"},
     {DEFAULT_SCHEMA, "notEmpty", {"str", nullptr}, R"(LENGTH(str) > 0)"},
     {DEFAULT_SCHEMA, "lengthUTF8", {"str", nullptr}, R"(LENGTH(str))"},
-    {DEFAULT_SCHEMA, "lower", {"str", nullptr}, R"(LOWER(str))"},
-    {DEFAULT_SCHEMA, "upper", {"str", nullptr}, R"(UPPER(str))"},
-    {DEFAULT_SCHEMA, "reverse", {"str", nullptr}, R"(REVERSE(str))"},
     // URL Functions
     {DEFAULT_SCHEMA, "protocol", {"url", nullptr}, R"(REGEXP_EXTRACT(url, '^(\w+)://'))"},
     {DEFAULT_SCHEMA, "domain", {"url", nullptr}, R"(REGEXP_EXTRACT(url, '://([^/]+)'))"},
