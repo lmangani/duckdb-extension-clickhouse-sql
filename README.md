@@ -1,8 +1,10 @@
+<a href="https://community-extensions.duckdb.org/extensions/chsql.html" target="_blank">
 <img src="https://github.com/lmangani/duckdb-extension-clickhouse-sql/assets/1423657/144dc202-f88a-4a2b-903d-51e30be75f6a" width=200>
+</a>
 
 # DuckDB ClickHouse SQL extension
 
-This DuckDB extension implements various macros using ClickHouse SQL syntax, making it easier<br>
+The [chsql](https://community-extensions.duckdb.org/extensions/chsql.html) DuckDB extension implements various macros using ClickHouse SQL syntax, making it easier<br>
 to transition between the two database systems ⭐ designed for [Quackpipe](https://github.com/metrico/quackpipe) 
 
 <br>
@@ -15,6 +17,12 @@ to transition between the two database systems ⭐ designed for [Quackpipe](http
 INSTALL chsql FROM community;
 LOAD chsql;
 ```
+
+If you previously installed the `chsql` extension, upgrade using the FORCE command
+```
+FORCE INSTALL chsql FROM community;
+```
+
 
 ## Usage Examples
 ```sql
@@ -33,11 +41,13 @@ SELECT intDiv(10, 3) as int_div;
 SELECT match('hello world', '%world%') as match_result;
 ```
 
-Find more examples in the [tests]([test/sql/chsql.sql](https://github.com/lmangani/duckdb-extension-clickhouse-sql/blob/main/test/sql/chsql.test)) and [source code](https://github.com/lmangani/duckdb-extension-clickhouse-sql/blob/main/src/chsql_extension.cpp#L31). _Contributions and fixes are extremely welcome!_
+Find a [full list of supported functions](https://community-extensions.duckdb.org/extensions/chsql.html#added-functions) on the [extension page](https://community-extensions.duckdb.org/extensions/chsql.html). 
 
 <br>
 
-## Building
+## Development
+The extension is automatically build and distributed. This section is not required unless you are a developer extending the code.
+
 ### Managing dependencies
 DuckDB extensions uses VCPKG for dependency management. Enabling VCPKG is very simple: follow the [installation instructions](https://vcpkg.io/en/getting-started) or just run the following:
 ```shell
