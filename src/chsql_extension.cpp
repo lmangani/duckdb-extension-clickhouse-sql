@@ -113,7 +113,7 @@ static DefaultMacro chsql_macros[] = {
     {DEFAULT_SCHEMA, "arrayJoin", {"arr", nullptr}, R"(UNNEST(arr))"},
     {DEFAULT_SCHEMA, "splitByChar", {"separator", "str", nullptr}, R"(string_split(str, separator))"},
     // URL Functions
-    {DEFAULT_SCHEMA, "protocol", {"url", nullptr}, R"(REGEXP_EXTRACT(url, '^(\w+)://'))"},
+    {DEFAULT_SCHEMA, "protocol", {"url", nullptr}, R"(REGEXP_EXTRACT(url, '^(\w+)://', 1))"},
     {DEFAULT_SCHEMA, "domain", {"url", nullptr}, R"(REGEXP_EXTRACT(url, '://([^/]+)'))"},
     {DEFAULT_SCHEMA, "topLevelDomain", {"url", nullptr}, R"(REGEXP_EXTRACT(url, '\.([^./:]+)([:/]|$)'))"},
     {DEFAULT_SCHEMA, "path", {"url", nullptr}, R"(REGEXP_EXTRACT(url, '://[^/]+(/.*)'))"},
