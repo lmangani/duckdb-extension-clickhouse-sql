@@ -27,7 +27,6 @@ namespace duckdb {
 //      If you do not have parameters, simplify to {nullptr}
 // Add the text of your SQL macro as a raw string with the format R"( select 42 )"
 
-
 static DefaultMacro chsql_macros[] = {
     // -- Type conversion macros
     {DEFAULT_SCHEMA, "toString", {"x", nullptr}, R"(CAST(x AS VARCHAR))"},
@@ -98,10 +97,21 @@ static DefaultMacro chsql_macros[] = {
     {DEFAULT_SCHEMA, "toHour", {"date_expression", nullptr}, R"(EXTRACT(HOUR FROM date_expression))"},
     {DEFAULT_SCHEMA, "toMinute", {"date_expression", nullptr}, R"(EXTRACT(MINUTE FROM date_expression))"},
     {DEFAULT_SCHEMA, "toSecond", {"date_expression", nullptr}, R"(EXTRACT(SECOND FROM date_expression))"},
+    {DEFAULT_SCHEMA, "toYYYYMM", {"date_expression", nullptr}, R"(DATE_FORMAT(date_expression, '%Y%m'))"},
+    {DEFAULT_SCHEMA, "toYYYYMMDD", {"date_expression", nullptr}, R"(DATE_FORMAT(date_expression, '%Y%m%d'))"},
+    {DEFAULT_SCHEMA, "toYYYYMMDDhhmmss", {"date_expression", nullptr}, R"(DATE_FORMAT(date_expression, '%Y%m%d%H%M%S'))"},
+    {DEFAULT_SCHEMA, "formatDateTime", {"time", "format", "timezone", nullptr}, R"(CASE  WHEN timezone IS NULL THEN strftime(time, format) ELSE strftime(time AT TIME ZONE timezone, format) END)"},
     // String Functions
     {DEFAULT_SCHEMA, "empty", {"str", nullptr}, R"(LENGTH(str) = 0)"},
     {DEFAULT_SCHEMA, "notEmpty", {"str", nullptr}, R"(LENGTH(str) > 0)"},
     {DEFAULT_SCHEMA, "lengthUTF8", {"str", nullptr}, R"(LENGTH(str))"},
+    {DEFAULT_SCHEMA, "leftPad", {"str", "length", "pad_str", nullptr}, R"(LPAD(str, length, pad_str))"},
+    {DEFAULT_SCHEMA, "rightPad", {"str", "length", "pad_str", nullptr}, R"(RPAD(str, length, pad_str))"},
+    {DEFAULT_SCHEMA, "extractAllGroups", {"text", "pattern", nullptr}, R"(regexp_extract_all(text, pattern))"},
+    {DEFAULT_SCHEMA, "toFixedString", {"str", "length", nullptr}, R"(RPAD(LEFT(str, length), length, '\0'))"},
+    {DEFAULT_SCHEMA, "ifNull", {"x", "y", nullptr}, R"(COALESCE(x, y))"},
+    {DEFAULT_SCHEMA, "arrayJoin", {"arr", nullptr}, R"(UNNEST(arr))"},
+    {DEFAULT_SCHEMA, "splitByChar", {"separator", "str", nullptr}, R"(string_split(str, separator))"},
     // URL Functions
     {DEFAULT_SCHEMA, "protocol", {"url", nullptr}, R"(REGEXP_EXTRACT(url, '^(\w+)://'))"},
     {DEFAULT_SCHEMA, "domain", {"url", nullptr}, R"(REGEXP_EXTRACT(url, '://([^/]+)'))"},
@@ -112,6 +122,10 @@ static DefaultMacro chsql_macros[] = {
     {DEFAULT_SCHEMA, "IPv4StringToNum", {"ip", nullptr}, R"(CAST(SPLIT_PART(ip, '.', 1) AS INTEGER) * 256 * 256 * 256 + CAST(SPLIT_PART(ip, '.', 2) AS INTEGER) * 256 * 256 + CAST(SPLIT_PART(ip, '.', 3) AS INTEGER) * 256 + CAST(SPLIT_PART(ip, '.', 4) AS INTEGER))"},
     // -- Misc macros
     {DEFAULT_SCHEMA, "generateUUIDv4", {nullptr}, R"(toString(uuid()))"},
+    {DEFAULT_SCHEMA, "parseURL", {"url", "part", nullptr}, R"(CASE part WHEN 'protocol' THEN REGEXP_EXTRACT(url, '^(\w+)://') WHEN 'domain' THEN REGEXP_EXTRACT(url, '://([^/:]+)') WHEN 'port' THEN REGEXP_EXTRACT(url, ':(\d+)') WHEN 'path' THEN REGEXP_EXTRACT(url, '://[^/]+(/.+?)(\?|#|$)') WHEN 'query' THEN REGEXP_EXTRACT(url, '\?([^#]+)') WHEN 'fragment' THEN REGEXP_EXTRACT(url, '#(.+)$') END)"},
+    {DEFAULT_SCHEMA, "hex", {"num", nullptr}, R"(TO_HEX(num))"},
+    {DEFAULT_SCHEMA, "unhex", {"str", nullptr}, R"(CAST(('x' || str) AS BLOB))"},
+    {DEFAULT_SCHEMA, "bitCount", {"num", nullptr}, R"(BIT_COUNT(num))"},
     {nullptr, nullptr, {nullptr}, nullptr}};
 
 // To add a new table SQL macro, add a new macro to this array!
