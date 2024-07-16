@@ -91,6 +91,8 @@ static DefaultMacro chsql_macros[] = {
     {DEFAULT_SCHEMA, "arrayExists", {"needle", "haystack"}, R"(haystack @> ARRAY[needle])"},
     {DEFAULT_SCHEMA, "arrayMap", {"e", "arr"}, R"(array_transform(arr, e -> (e * e)))"},
     // Date and Time Functions
+    {DEFAULT_SCHEMA, "now", {nullptr}, R"(get_current_time())"},
+    {DEFAULT_SCHEMA, "yesterday", {nullptr}, R"(today()-1d)"},
     {DEFAULT_SCHEMA, "toYear", {"date_expression", nullptr}, R"(EXTRACT(YEAR FROM date_expression))"},
     {DEFAULT_SCHEMA, "toMonth", {"date_expression", nullptr}, R"(EXTRACT(MONTH FROM date_expression))"},
     {DEFAULT_SCHEMA, "toDayOfMonth", {"date_expression", nullptr}, R"(EXTRACT(DAY FROM date_expression))"},
