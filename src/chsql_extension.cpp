@@ -144,7 +144,8 @@ static DefaultMacro chsql_macros[] = {
 static const DefaultTableMacro chsql_table_macros[] = {
 	{DEFAULT_SCHEMA, "tableMultiply", {"x", nullptr}, {{"two", "2"}, {nullptr, nullptr}},  R"(SELECT x * two as output_column;)"},
         {DEFAULT_SCHEMA, "numbers", {"x", nullptr}, {{"z", "0"}, {nullptr, nullptr}},  R"(SELECT * as number FROM generate_series(z,x-1);)"},
-	{nullptr, nullptr, {nullptr}, {{nullptr, nullptr}}, nullptr}
+        {DEFAULT_SCHEMA, "clickhouse", {"query", "server"}, {{"format", "JSONEachRow"}, {nullptr, nullptr}},  R"(SELECT * FROM read_json_auto(concat(server, '/?default_format=', format, '&query=', query)))"},
+        {nullptr, nullptr, {nullptr}, {{nullptr, nullptr}}, nullptr}
 	};
 // clang-format on
 
