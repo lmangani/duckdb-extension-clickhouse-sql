@@ -1,4 +1,4 @@
-#include "duckdb/catalog/default/default_table_functions.hpp"
+#include "default_table_functions.hpp"
 #include "duckdb/catalog/catalog_entry/table_macro_catalog_entry.hpp"
 #include "duckdb/parser/parser.hpp"
 #include "duckdb/parser/parsed_data/create_macro_info.hpp"
