@@ -4,7 +4,7 @@
 
 # DuckDB ClickHouse SQL extension
 
-The DuckDB [chsql](https://community-extensions.duckdb.org/extensions/chsql.html) community extension implements various macros using **ClickHouse SQL** syntax,<br>
+The DuckDB [chsql](https://community-extensions.duckdb.org/extensions/chsql.html) community extension implements popular **ClickHouse SQL** syntax macros and functions,<br>
 making it easier for users to transition between the two database systems ⭐ designed for [Quackpipe](https://github.com/metrico/quackpipe) 
 
 <br>
