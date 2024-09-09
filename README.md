@@ -24,10 +24,6 @@ FORCE INSTALL chsql FROM community;
 LOAD chsql;
 ```
 
-## Supported Functions
-
-The [list of supported functions](https://community-extensions.duckdb.org/extensions/chsql.html#added-functions) is available on the [dedicated extension page](https://community-extensions.duckdb.org/extensions/chsql.html). 
-
 ## Usage Examples
 Once installed, the macro functions provided by the extension can be used just like built-in functions.
 
@@ -50,10 +46,33 @@ The built-in `ch_scan` function can be used to query remote ClickHouse servers u
 D SELECT * FROM ch_scan("SELECT number * 2 as twice FROM numbers(10)","https://play.clickhouse.com");
 ```
 
+## Supported Functions
+
+The [list of supported functions](https://community-extensions.duckdb.org/extensions/chsql.html#added-functions) is available on the [dedicated extension page](https://community-extensions.duckdb.org/extensions/chsql.html). 
+
 <br>
 
+
+## Motivation
+
+✔ The DuckDB library is ~51M and modular. Can LOAD extensions.<br>
+❌ The ClickHouse monolith is ~551M and growing. No extensions. 
+
+✔ DuckDB is open source and _protected by a no-profit foundation._<br>
+❌ ClickHouse is open core and _owned and controlled by for-profit corporation._ 
+
+✔ DuckDB embedded is faster and elegantly integrated in many programming languages.<br>
+❌ ClickHouse embedded hack is slower and _barely only supports Python integrations_. 
+
+<img src="https://github.com/user-attachments/assets/a17efd68-d2e1-42a7-8ab9-1ea4c2ff11e3" width=700 />
+
+<br>
+
+<br>
+
+
 ## Development
-The extension is automatically build and distributed. This section is not required unless you are a developer extending the code.
+The extension is automatically build and distributed. This section is only required for development.
 
 ### Managing dependencies
 DuckDB extensions uses VCPKG for dependency management. Enabling VCPKG is very simple: follow the [installation instructions](https://vcpkg.io/en/getting-started) or just run the following:
@@ -133,4 +152,4 @@ LOAD dynamic_sql_clickhouse
 
 
 ###### Disclaimer
-> DuckDB ® is a trademark of DuckDB Foundation. ClickHouse® is a trademark of ClickHouse Inc. All trademarks, service marks, and logos mentioned or depicted are the property of their respective owners. The use of any third-party trademarks, brand names, product names, and company names is purely informative and does not imply endorsement, affiliation, or association with the respective owners.
+> DuckDB ® is a trademark of DuckDB Foundation. ClickHouse® is a trademark of ClickHouse Inc. All trademarks, service marks, and logos mentioned or depicted are the property of their respective owners. The use of any third-party trademarks, brand names, product names, and company names is purely informative or intended as parody and does not imply endorsement, affiliation, or association with the respective owners.
