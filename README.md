@@ -1,5 +1,5 @@
 <a href="https://community-extensions.duckdb.org/extensions/chsql.html" target="_blank">
-<img src="https://github.com/lmangani/duckdb-extension-clickhouse-sql/assets/1423657/144dc202-f88a-4a2b-903d-51e30be75f6a" width=200>
+<img src="https://github.com/user-attachments/assets/9003897d-db6f-4a79-9443-9b72766b511b" width=200>
 </a>
 
 # DuckDB ClickHouse SQL extension
@@ -124,3 +124,7 @@ LOAD dynamic_sql_clickhouse
 ```
 
 -->
+
+
+###### Disclaimer
+> DuckDB ® is a trademark of DuckDB Foundation. ClickHouse® is a trademark of ClickHouse Inc. All trademarks, service marks, and logos mentioned or depicted are the property of their respective owners. The use of any third-party trademarks, brand names, product names, and company names is purely informative and does not imply endorsement, affiliation, or association with the respective owners.
