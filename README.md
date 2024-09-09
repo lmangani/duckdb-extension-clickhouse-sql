@@ -4,8 +4,8 @@
 
 # DuckDB ClickHouse SQL extension
 
-The [chsql](https://community-extensions.duckdb.org/extensions/chsql.html) DuckDB extension implements various macros using ClickHouse SQL syntax, making it easier<br>
-to transition between the two database systems ⭐ designed for [Quackpipe](https://github.com/metrico/quackpipe) 
+The DuckDB [chsql](https://community-extensions.duckdb.org/extensions/chsql.html) community extension implements various macros using **ClickHouse SQL** syntax,<br>
+making it easier for users to transition between the two database systems ⭐ designed for [Quackpipe](https://github.com/metrico/quackpipe) 
 
 <br>
 
@@ -29,7 +29,7 @@ LOAD chsql;
 The [list of supported functions](https://community-extensions.duckdb.org/extensions/chsql.html#added-functions) is available on the [dedicated extension page](https://community-extensions.duckdb.org/extensions/chsql.html). 
 
 ## Usage Examples
-Once installed, macro functions provided by the extension can be used just like built-in functions.
+Once installed, the macro functions provided by the extension can be used just like built-in functions.
 
 ```sql
 D INSTALL chsql FROM community;
@@ -43,6 +43,12 @@ D SELECT IPv4StringToNum('127.0.0.1'), IPv4NumToString(2130706433);
 └──────────────────────────────┴─────────────────────────────┘
 ```
 
+### Remote Queries
+The built-in `ch_scan` function can be used to query remote ClickHouse servers using the HTTP/s API
+
+```sql
+D SELECT * FROM ch_scan("SELECT number * 2 as twice FROM numbers(10)","https://play.clickhouse.com");
+```
 
 <br>
 
