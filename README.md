@@ -59,7 +59,7 @@ The [list of supported functions](https://community-extensions.duckdb.org/extens
 ❌ The ClickHouse monolith is ~551M and growing. No extensions. 
 
 ✔ DuckDB is open source and _protected by a no-profit foundation._<br>
-❌ ClickHouse is open core and _owned and controlled by for-profit corporation._ 
+❌ ClickHouse is open core and _controlled by for-profit corporation._ 
 
 ✔ DuckDB embedded is faster and elegantly integrated in many programming languages.<br>
 ❌ ClickHouse embedded is slower and _currently only supports Python integrations_. 
