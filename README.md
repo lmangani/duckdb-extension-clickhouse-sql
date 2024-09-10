@@ -62,7 +62,7 @@ The [list of supported functions](https://community-extensions.duckdb.org/extens
 ❌ ClickHouse is open core and _owned and controlled by for-profit corporation._ 
 
 ✔ DuckDB embedded is faster and elegantly integrated in many programming languages.<br>
-❌ ClickHouse embedded hack is slower and _barely only supports Python integrations_. 
+❌ ClickHouse embedded is slower and _currently only supports Python integrations_. 
 
 <img src="https://github.com/user-attachments/assets/a17efd68-d2e1-42a7-8ab9-1ea4c2ff11e3" width=700 />
 
