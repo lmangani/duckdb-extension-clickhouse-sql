@@ -55,6 +55,9 @@ The [list of supported functions](https://community-extensions.duckdb.org/extens
 
 ## Motivation
 
+✔ DuckDB SQL is awesome and full of great functions.<br>
+✔ ClickHouse SQL is awesome and full of great functions. 
+
 ✔ The DuckDB library is ~51M and modular. Can LOAD extensions.<br>
 ❌ The ClickHouse monolith is ~551M and growing. No extensions. 
 
