@@ -43,7 +43,7 @@ D SELECT IPv4StringToNum('127.0.0.1'), IPv4NumToString(2130706433);
 The built-in `ch_scan` function can be used to query remote ClickHouse servers using the HTTP/s API
 
 ```sql
-D SELECT * FROM ch_scan("SELECT number * 2 as twice FROM numbers(10)","https://play.clickhouse.com");
+D SELECT * FROM ch_scan("SELECT number * 2 FROM numbers(10)","https://play.clickhouse.com");
 ```
 
 ## Supported Functions
