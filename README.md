@@ -64,8 +64,8 @@ The [list of supported functions](https://community-extensions.duckdb.org/extens
 ✔ DuckDB is open source and _protected by a no-profit foundation._<br>
 ❌ ClickHouse is open core and _controlled by for-profit corporation._ 
 
-✔ DuckDB embedded is faster and elegantly integrated in many programming languages.<br>
-❌ ClickHouse embedded is slower and _currently only supports Python integrations_. 
+✔ DuckDB embedded is fast, mature and elegantly integrated in many languages.<br>
+❌ ClickHouse chdb is experimental, unstable and _currently only supports Python_. 
 
 <img src="https://github.com/user-attachments/assets/a17efd68-d2e1-42a7-8ab9-1ea4c2ff11e3" width=700 />
 
