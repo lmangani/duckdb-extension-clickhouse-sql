@@ -48,7 +48,8 @@ D SELECT * FROM ch_scan("SELECT number * 2 FROM numbers(10)", "https://play.clic
 
 ## Supported Functions
 
-The [list of supported functions](https://community-extensions.duckdb.org/extensions/chsql.html#added-functions) is available on the [dedicated extension page](https://community-extensions.duckdb.org/extensions/chsql.html). 
+👉 The [list of supported aliases](https://community-extensions.duckdb.org/extensions/chsql.html#added-functions) is available on the [dedicated extension page](https://community-extensions.duckdb.org/extensions/chsql.html)<br>
+👉 The combined list of [supported functions](https://quackpipe.fly.dev/?user=default#TE9BRCBjaHNxbDsgU0VMRUNUIERJU1RJTkNUIE9OKGZ1bmN0aW9uX25hbWUpIGZ1bmN0aW9uX25hbWUgYXMgbmFtZQpGUk9NIGR1Y2tkYl9mdW5jdGlvbnMoKSBXSEVSRSBuYW1lIElOIChTRUxFQ1QgbmFtZSBGUk9NIGNoX3NjYW4oJyBTRUxFQ1QgbmFtZSBGUk9NIHN5c3RlbS5mdW5jdGlvbnMnLCdodHRwczovL3BsYXkuY2xpY2tob3VzZS5jb20nKSBPUkRFUiBCWSBuYW1lKSBPUkRFUiBCWSBuYW1lOw==) can be obtained using an [SQL Join](https://quackpipe.fly.dev/?user=default#TE9BRCBjaHNxbDsgU0VMRUNUIERJU1RJTkNUIE9OKGZ1bmN0aW9uX25hbWUpIGZ1bmN0aW9uX25hbWUgYXMgbmFtZQpGUk9NIGR1Y2tkYl9mdW5jdGlvbnMoKSBXSEVSRSBuYW1lIElOIChTRUxFQ1QgbmFtZSBGUk9NIGNoX3NjYW4oJyBTRUxFQ1QgbmFtZSBGUk9NIHN5c3RlbS5mdW5jdGlvbnMnLCdodHRwczovL3BsYXkuY2xpY2tob3VzZS5jb20nKSBPUkRFUiBCWSBuYW1lKSBPUkRFUiBCWSBuYW1lOw==)
 
 <br>
 
