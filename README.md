@@ -55,6 +55,8 @@ The [list of supported functions](https://community-extensions.duckdb.org/extens
 
 ## Motivation
 
+> Why is the DuckDB + chsql combo fun and useful
+
 ✔ DuckDB SQL is awesome and full of great functions.<br>
 ✔ ClickHouse SQL is awesome and full of great functions. 
 
@@ -65,7 +67,7 @@ The [list of supported functions](https://community-extensions.duckdb.org/extens
 ❌ ClickHouse is open core and _controlled by for-profit corporation._ 
 
 ✔ DuckDB embedded is fast, mature and elegantly integrated in many languages.<br>
-❌ ClickHouse chdb is experimental, unstable and _currently only supports Python_. 
+❌ chdb is still experimental, unstable and _currently only supports Python_. 
 
 <img src="https://github.com/user-attachments/assets/a17efd68-d2e1-42a7-8ab9-1ea4c2ff11e3" width=700 />
 
