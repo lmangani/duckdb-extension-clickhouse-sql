@@ -143,6 +143,7 @@ static DefaultMacro chsql_macros[] = {
 static const DefaultTableMacro chsql_table_macros[] = {
         {DEFAULT_SCHEMA, "numbers", {"x", nullptr}, {{"z", "0"}, {nullptr, nullptr}},  R"(SELECT * as number FROM generate_series(z,x-1);)"},
         {DEFAULT_SCHEMA, "ch_scan", {"query", "server"}, {{"format", "JSONEachRow"}, {"user", "play"}, {nullptr, nullptr}},  R"(SELECT * FROM read_json_auto(concat(server, '/?default_format=', format, '&user=', user, '&query=', query)))"},
+        {DEFAULT_SCHEMA, "url", {"url", "format"}, {{nullptr, nullptr}}, R"(WITH "JSON" as (SELECT * FROM read_json_auto(url)), "PARQUET" as (SELECT * FROM read_csv(url)), "CSV" as (SELECT * FROM read_csv_auto(url)), "BLOB" as (SELECT * FROM read_blob(url)), "TEXT" as (SELECT * FROM read_text(url)) FROM query_table(format))"},
         {nullptr, nullptr, {nullptr}, {{nullptr, nullptr}}, nullptr}
 	};
 // clang-format on
