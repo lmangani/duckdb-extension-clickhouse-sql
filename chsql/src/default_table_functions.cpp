@@ -1,9 +1,9 @@
-#include "default_table_functions.hpp"
 #include "duckdb/catalog/catalog_entry/table_macro_catalog_entry.hpp"
 #include "duckdb/parser/parser.hpp"
 #include "duckdb/parser/parsed_data/create_macro_info.hpp"
 #include "duckdb/parser/statement/select_statement.hpp"
 #include "duckdb/function/table_macro_function.hpp"
+#include <duckdb/catalog/default/default_table_functions.hpp>
 
 namespace duckdb {
 
@@ -70,11 +70,11 @@ FROM histogram_values(source, col_name, bin_count := bin_count, technique := tec
 	};
 // clang-format on
 
-DefaultTableFunctionGenerator::DefaultTableFunctionGenerator(Catalog &catalog, SchemaCatalogEntry &schema)
+/*DefaultTableFunctionGenerator::DefaultTableFunctionGenerator(Catalog &catalog, SchemaCatalogEntry &schema)
     : DefaultGenerator(catalog), schema(schema) {
-}
+}*/
 
-unique_ptr<CreateMacroInfo>
+/*unique_ptr<CreateMacroInfo>
 DefaultTableFunctionGenerator::CreateInternalTableMacroInfo(const DefaultTableMacro &default_macro,
                                                             unique_ptr<MacroFunction> function) {
 	for (idx_t param_idx = 0; default_macro.parameters[param_idx] != nullptr; param_idx++) {
@@ -95,7 +95,7 @@ DefaultTableFunctionGenerator::CreateInternalTableMacroInfo(const DefaultTableMa
 	bind_info->name = default_macro.name;
 	bind_info->temporary = true;
 	bind_info->internal = true;
-	bind_info->function = std::move(function);
+	bind_info->macros.push_back(std::move(function));
 	return bind_info;
 }
 
@@ -130,9 +130,9 @@ unique_ptr<CatalogEntry> DefaultTableFunctionGenerator::CreateDefaultEntry(Clien
 		return make_uniq_base<CatalogEntry, TableMacroCatalogEntry>(catalog, schema, info->Cast<CreateMacroInfo>());
 	}
 	return nullptr;
-}
+}*/
 
-vector<string> DefaultTableFunctionGenerator::GetDefaultEntries() {
+/*vector<string> DefaultTableFunctionGenerator::GetDefaultEntries() {
 	vector<string> result;
 	for (idx_t index = 0; internal_table_macros[index].name != nullptr; index++) {
 		if (StringUtil::Lower(internal_table_macros[index].name) != internal_table_macros[index].name) {
@@ -143,6 +143,6 @@ vector<string> DefaultTableFunctionGenerator::GetDefaultEntries() {
 		}
 	}
 	return result;
-}
+}*/
 
 } // namespace duckdb

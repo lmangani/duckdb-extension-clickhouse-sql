@@ -10,5 +10,6 @@ public:
 	std::string Name() override;
         std::string Version() const override;
 };
-
+duckdb::TableFunction ReadParquetOrderedFunction();
+static void RegisterSillyBTreeStore(DatabaseInstance &instance);
 } // namespace duckdb
