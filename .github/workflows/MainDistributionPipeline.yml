@@ -20,11 +20,12 @@ jobs:
       extension_name: dynamic_sql_examples
 
   duckdb-stable-deploy:
+    enable: false
     name: Deploy extension binaries
     needs: duckdb-stable-build
     uses: ./.github/workflows/_extension_deploy.yml
     secrets: inherit
     with:
       duckdb_version: v1.1.1
-      extension_name: dynamic_sql_examples
+      extension_name: chsql
       deploy_latest: ${{ startsWith(github.ref, 'refs/tags/v') || github.ref == 'refs/heads/main' }}
