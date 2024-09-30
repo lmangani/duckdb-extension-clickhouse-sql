@@ -12,7 +12,7 @@
 
 // OpenSSL linked through vcpkg
 #include <openssl/opensslv.h>
-
+#include "parquet_ordered_scan.cpp"
 namespace duckdb {
 
 // To add a new scalar SQL macro, add a new macro to this array!
