@@ -58,7 +58,7 @@ namespace duckdb {
 				const auto &s = sets[i];
 				const auto &w = sets[winner_idx];
 				if (s->chunk->GetValue(s->orderByIdx, s->result_idx) <
-					w->chunk->GetValue(w->orderByIdx, s->result_idx)) {
+					w->chunk->GetValue(w->orderByIdx, w->result_idx)) {
 					winner_idx = i;
 					}
 			}
@@ -156,9 +156,13 @@ namespace duckdb {
 			auto set = make_uniq<ReaderSet>();
 			set->reader = make_uniq<ParquetReader>(context.client, bindData.files[i], po, nullptr);
 			set->scanState = make_uniq<ParquetReaderScanState>();
-			set->reader->reader_data.column_ids = vector<idx_t>(set->reader->metadata->metadata->schema.size()-1);
-			for (idx_t j = 0; j < set->reader->reader_data.column_ids.size(); j++) {
-				set->reader->reader_data.column_ids[j] = j;
+			int j = 0;
+			for (auto &el : set->reader->metadata->metadata->schema) {
+				if (el.num_children != 0) {
+					continue;
+				}
+				set->reader->reader_data.column_ids.push_back(j);
+				j++;
 			}
 			set->columnMap = bindData.sets[i]->columnMap;
 			set->reader->reader_data.column_mapping = set->columnMap;
@@ -188,6 +192,7 @@ namespace duckdb {
 		auto &loc_state = data_p.local_state->Cast<OrderedReadLocalState>();
 		const auto &fieldNames = data_p.bind_data->Cast<OrderedReadFunctionData>().names;
 		const auto &returnTypes = data_p.bind_data->Cast<OrderedReadFunctionData>().returnTypes;
+		bool toRecalc = false;
 		for (int i = loc_state.sets.size() - 1; i >= 0 ; i--) {
 			if (loc_state.sets[i]->result_idx >= loc_state.sets[i]->chunk->size()) {
 				auto &set = loc_state.sets[i];
@@ -200,11 +205,14 @@ namespace duckdb {
 				if (loc_state.sets[i]->chunk->size() == 0) {
 					loc_state.RemoveSetGracefully(i);
 				}
-				loc_state.RecalculateWinnerGroup();
+				toRecalc = true;
 			}
 		}
 		if (loc_state.sets.empty()) {
 			return;
+		}
+		if (toRecalc) {
+			loc_state.RecalculateWinnerGroup();
 		}
 		int cap = 1024;
 		output.Reset();
@@ -234,8 +242,8 @@ namespace duckdb {
 				}
 			}
 			for (int i = 0; i < fieldNames.size(); i++) {
-				output.SetValue(i, j,
-					(*winnerSet)->chunk->GetValue(i,(*winnerSet)->result_idx));
+				const auto &val = (*winnerSet)->chunk->GetValue(i,(*winnerSet)->result_idx);
+				output.SetValue(i, j, val);
 			}
 			j++;
 			(*winnerSet)->result_idx++;
