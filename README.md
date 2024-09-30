@@ -1,11 +1,11 @@
 <a href="https://community-extensions.duckdb.org/extensions/chsql.html" target="_blank">
-<img src="https://github.com/lmangani/duckdb-extension-clickhouse-sql/assets/1423657/144dc202-f88a-4a2b-903d-51e30be75f6a" width=200>
+<img src="https://github.com/user-attachments/assets/9003897d-db6f-4a79-9443-9b72766b511b" width=200>
 </a>
 
 # DuckDB ClickHouse SQL extension
 
-The [chsql](https://community-extensions.duckdb.org/extensions/chsql.html) DuckDB extension implements various macros using ClickHouse SQL syntax, making it easier<br>
-to transition between the two database systems ⭐ designed for [Quackpipe](https://github.com/metrico/quackpipe) 
+The DuckDB [chsql](https://community-extensions.duckdb.org/extensions/chsql.html) community extension implements popular **ClickHouse SQL** syntax macros and functions,<br>
+making it easier for users to transition between the two database systems ⭐ designed for [Quackpipe](https://github.com/metrico/quackpipe) 
 
 <br>
 
@@ -24,12 +24,8 @@ FORCE INSTALL chsql FROM community;
 LOAD chsql;
 ```
 
-## Supported Functions
-
-The [list of supported functions](https://community-extensions.duckdb.org/extensions/chsql.html#added-functions) is available on the [dedicated extension page](https://community-extensions.duckdb.org/extensions/chsql.html). 
-
 ## Usage Examples
-Once installed, macro functions provided by the extension can be used just like built-in functions.
+Once installed, the macro functions provided by the extension can be used just like built-in functions.
 
 ```sql
 D INSTALL chsql FROM community;
@@ -43,11 +39,46 @@ D SELECT IPv4StringToNum('127.0.0.1'), IPv4NumToString(2130706433);
 └──────────────────────────────┴─────────────────────────────┘
 ```
 
+### Remote Queries
+The built-in `ch_scan` function can be used to query remote ClickHouse servers using the HTTP/s API
+
+```sql
+D SELECT * FROM ch_scan("SELECT number * 2 FROM numbers(10)", "https://play.clickhouse.com");
+```
+
+## Supported Functions
+
+👉 The [list of supported aliases](https://community-extensions.duckdb.org/extensions/chsql.html#added-functions) is available on the [dedicated extension page](https://community-extensions.duckdb.org/extensions/chsql.html)<br>
+👉 The combined list of [supported functions](https://quackpipe.fly.dev/?user=default#TE9BRCBjaHNxbDsgU0VMRUNUIERJU1RJTkNUIE9OKGZ1bmN0aW9uX25hbWUpIGZ1bmN0aW9uX25hbWUgYXMgbmFtZQpGUk9NIGR1Y2tkYl9mdW5jdGlvbnMoKSBXSEVSRSBuYW1lIElOIChTRUxFQ1QgbmFtZSBGUk9NIGNoX3NjYW4oJyBTRUxFQ1QgbmFtZSBGUk9NIHN5c3RlbS5mdW5jdGlvbnMnLCdodHRwczovL3BsYXkuY2xpY2tob3VzZS5jb20nKSBPUkRFUiBCWSBuYW1lKSBPUkRFUiBCWSBuYW1lOw==) can be obtained using an [SQL Join](https://quackpipe.fly.dev/?user=default#TE9BRCBjaHNxbDsgU0VMRUNUIERJU1RJTkNUIE9OKGZ1bmN0aW9uX25hbWUpIGZ1bmN0aW9uX25hbWUgYXMgbmFtZQpGUk9NIGR1Y2tkYl9mdW5jdGlvbnMoKSBXSEVSRSBuYW1lIElOIChTRUxFQ1QgbmFtZSBGUk9NIGNoX3NjYW4oJyBTRUxFQ1QgbmFtZSBGUk9NIHN5c3RlbS5mdW5jdGlvbnMnLCdodHRwczovL3BsYXkuY2xpY2tob3VzZS5jb20nKSBPUkRFUiBCWSBuYW1lKSBPUkRFUiBCWSBuYW1lOw==)
 
 <br>
 
+
+## Motivation
+
+> Why is the DuckDB + chsql combo fun and useful
+
+✔ DuckDB SQL is awesome and full of great functions.<br>
+✔ ClickHouse SQL is awesome and full of great functions. 
+
+✔ The DuckDB library is ~51M and modular. Can LOAD extensions.<br>
+❌ The ClickHouse monolith is ~551M and growing. No extensions. 
+
+✔ DuckDB is open source and _protected by a no-profit foundation._<br>
+❌ ClickHouse is open core and _controlled by for-profit corporation._ 
+
+✔ DuckDB embedded is fast, mature and elegantly integrated in many languages.<br>
+❌ chdb is still experimental, unstable and _currently only supports Python_. 
+
+<img src="https://github.com/user-attachments/assets/a17efd68-d2e1-42a7-8ab9-1ea4c2ff11e3" width=700 />
+
+<br>
+
+<br>
+
+
 ## Development
-The extension is automatically build and distributed. This section is not required unless you are a developer extending the code.
+The extension is automatically build and distributed. This section is only required for development.
 
 ### Managing dependencies
 DuckDB extensions uses VCPKG for dependency management. Enabling VCPKG is very simple: follow the [installation instructions](https://vcpkg.io/en/getting-started) or just run the following:
@@ -124,3 +155,7 @@ LOAD dynamic_sql_clickhouse
 ```
 
 -->
+
+
+###### Disclaimer
+> DuckDB ® is a trademark of DuckDB Foundation. ClickHouse® is a trademark of ClickHouse Inc. All trademarks, service marks, and logos mentioned or depicted are the property of their respective owners. The use of any third-party trademarks, brand names, product names, and company names is purely informative or intended as parody and does not imply endorsement, affiliation, or association with the respective owners.
