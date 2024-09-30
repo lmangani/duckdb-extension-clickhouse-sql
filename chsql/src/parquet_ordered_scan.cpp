@@ -97,7 +97,7 @@ namespace duckdb {
 			ParquetReader reader(context, file.ToString(), po, nullptr);
 			set->columnMap = vector<idx_t>();
 			for (auto &el : reader.metadata->metadata->schema) {
-				if (el.name == "duckdb_schema") {
+				if (el.num_children != 0) {
 					continue;
 				}
 				auto name_it = std::find(names.begin(), names.end(), el.name);
@@ -250,7 +250,7 @@ namespace duckdb {
 		}
 	}
 
-	duckdb::TableFunction ReadParquetOrderedFunction() {
+	TableFunction ReadParquetOrderedFunction() {
 		TableFunction tf = duckdb::TableFunction(
 			"read_parquet_ordered",
 			{LogicalType::LIST(LogicalType::VARCHAR), LogicalType::VARCHAR},
