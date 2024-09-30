@@ -20,7 +20,7 @@ jobs:
       extension_name: dynamic_sql_examples
 
   duckdb-stable-deploy:
-    enable: false
+    if: false
     name: Deploy extension binaries
     needs: duckdb-stable-build
     uses: ./.github/workflows/_extension_deploy.yml
