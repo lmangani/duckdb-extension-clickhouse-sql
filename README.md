@@ -25,7 +25,9 @@ LOAD chsql;
 ```
 
 ## Usage Examples
-Once installed, the macro functions provided by the extension can be used just like built-in functions.
+Once installed, the [macro functions](https://community-extensions.duckdb.org/extensions/chsql.html#added-functions) provided by the extension can be used just like built-in functions.
+
+Here's a random example out of 100s using the `IPv4StringToNum` and `IPv4NumToString` functions:
 
 ```sql
 D INSTALL chsql FROM community;
