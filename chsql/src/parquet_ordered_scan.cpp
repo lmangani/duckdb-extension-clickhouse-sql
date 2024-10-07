@@ -20,7 +20,7 @@ namespace duckdb {
 		vector<string> files;
 		vector<LogicalType> returnTypes;
 		vector<string> names;
-		DUCKDB_API unique_ptr<FunctionData> Copy() const override {
+		unique_ptr<FunctionData> Copy() const override {
 			throw std::runtime_error("not implemented");
 		}
 		static bool EqualStrArrays(const vector<string> &a, const vector<string> &b) {
@@ -34,7 +34,7 @@ namespace duckdb {
 			}
 			return true;
 		}
-		DUCKDB_API bool Equals(const FunctionData &other) const override {
+		bool Equals(const FunctionData &other) const override {
 			const auto &o = other.Cast<OrderedReadFunctionData>();
 			if (!EqualStrArrays(o.files, files)) {
 				return false;
