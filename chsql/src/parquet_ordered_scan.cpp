@@ -260,7 +260,7 @@ namespace duckdb {
 
 	TableFunction ReadParquetOrderedFunction() {
 		TableFunction tf = duckdb::TableFunction(
-			"read_parquet_ordered",
+			"read_parquet_mergetree",
 			{LogicalType::LIST(LogicalType::VARCHAR), LogicalType::VARCHAR},
 			ParquetOrderedScanImplementation,
 			OrderedParquetScanBind,
