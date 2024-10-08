@@ -1,8 +1,8 @@
-PROJ_DIR := $(dir $(abspath $(lastword $(MAKEFILE_LIST))))
+PROJ_DIR := $(dir $(abspath $(lastword $(MAKEFILE_LIST))))chsql/
 
 # Configuration of extension
 EXT_NAME=chsql
-EXT_CONFIG=${PROJ_DIR}chsql/extension_config.cmake
+EXT_CONFIG=${PROJ_DIR}extension_config.cmake
 
 # Include the Makefile from extension-ci-tools
 include extension-ci-tools/makefiles/duckdb_extension.Makefile
