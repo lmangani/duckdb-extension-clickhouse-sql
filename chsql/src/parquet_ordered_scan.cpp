@@ -2,6 +2,7 @@
 #include "duckdb/common/exception.hpp"
 #include <parquet_reader.hpp>
 #include "chsql_extension.hpp"
+#include <duckdb/common/multi_file_list.hpp>
 
 namespace duckdb {
 
@@ -88,13 +89,26 @@ namespace duckdb {
 		Connection conn(*context.db);
 		auto res = make_uniq<OrderedReadFunctionData>();
 		auto files = ListValue::GetChildren(input.inputs[0]);
-		res->orderBy = input.inputs[1].GetValue<string>();
+		vector<string> fileNames;
 		for (auto & file : files) {
+			fileNames.push_back(file.ToString());
+		}
+		GlobMultiFileList fileList(context, fileNames, FileGlobOptions::ALLOW_EMPTY);
+		string filename;
+		MultiFileListScanData it;
+		fileList.InitializeScan(it);
+		vector<string> unglobbedFileList;
+		while (fileList.Scan(it, filename)) {
+			unglobbedFileList.push_back(filename);
+		}
+
+		res->orderBy = input.inputs[1].GetValue<string>();
+		for (auto & file : unglobbedFileList) {
 			auto set = make_uniq<ReaderSet>();
-			res->files.push_back(file.ToString());
+			res->files.push_back(file);
 			ParquetOptions po;
 			po.binary_as_string = true;
-			ParquetReader reader(context, file.ToString(), po, nullptr);
+			ParquetReader reader(context, file, po, nullptr);
 			set->columnMap = vector<idx_t>();
 			for (auto &el : reader.metadata->metadata->schema) {
 				if (el.num_children != 0) {
