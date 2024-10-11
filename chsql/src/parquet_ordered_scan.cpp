@@ -101,6 +101,9 @@ namespace duckdb {
 		while (fileList.Scan(it, filename)) {
 			unglobbedFileList.push_back(filename);
 		}
+		if (unglobbedFileList.empty()) {
+		    throw duckdb::InvalidInputException("No files matched the provided pattern.");
+		}
 
 		res->orderBy = input.inputs[1].GetValue<string>();
 		for (auto & file : unglobbedFileList) {
