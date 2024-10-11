@@ -12,7 +12,7 @@
 
 // OpenSSL linked through vcpkg
 #include <openssl/opensslv.h>
-
+#include "parquet_ordered_scan.cpp"
 namespace duckdb {
 
 // To add a new scalar SQL macro, add a new macro to this array!
@@ -188,6 +188,7 @@ static void LoadInternal(DatabaseInstance &instance) {
 		auto table_info = DefaultTableFunctionGenerator::CreateTableMacroInfo(chsql_table_macros[index]);
         ExtensionUtil::RegisterFunction(instance, *table_info);
 	}
+	ExtensionUtil::RegisterFunction(instance, ReadParquetOrderedFunction());
 }
 
 void ChsqlExtension::Load(DuckDB &db) {

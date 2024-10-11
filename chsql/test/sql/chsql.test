@@ -11,6 +11,8 @@ Catalog Error: Scalar Function with name chsql does not exist!
 # Require statement will ensure this test is run with this extension loaded
 require chsql
 
+require parquet
+
 # Confirm the extension works
 query I
 SELECT chsql('Works');
@@ -386,3 +388,20 @@ query I
 SELECT bitCount(7)  -- Binary: 111
 ----
 3
+
+# read_mergetree
+statement ok
+copy (select number * 2 as n from numbers(100000)) TO '__TEST_DIR__/1.parquet';
+
+statement ok
+copy (select number * 2 + 1 as n from numbers(100000)) TO '__TEST_DIR__/2.parquet';
+
+query I
+select count() as c from read_parquet_mergetree(ARRAY['__TEST_DIR__/1.parquet', '__TEST_DIR__/2.parquet'], 'n');
+----
+200000
+
+query I
+select count() as c from (select n - lag(n) over () as diff from read_parquet_mergetree(ARRAY['__TEST_DIR__/1.parquet', '__TEST_DIR__/2.parquet'], 'n')) where diff <0;
+----
+0

@@ -1,4 +1,4 @@
-PROJ_DIR := $(dir $(abspath $(lastword $(MAKEFILE_LIST))))
+PROJ_DIR := $(dir $(abspath $(lastword $(MAKEFILE_LIST))))chsql/
 
 # Configuration of extension
 EXT_NAME=chsql
