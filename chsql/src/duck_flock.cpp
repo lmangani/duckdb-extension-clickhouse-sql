@@ -25,7 +25,7 @@ namespace duckdb {
             flock.push_back(duck.ToString());
             auto conn = make_uniq<Connection>(*context.db);
             conn->Query("SET autoload_known_extensions=1;SET autoinstall_known_extensions=1;");
-            auto req = conn->Prepare("SELECT * FROM read_json($2 || '/?q=' || url_encode($1::VARCHAR))");
+            auto req = conn->Prepare("SELECT * FROM read_json($2 || '/?default_format=JSONEachRow&query=' || url_encode($1::VARCHAR))");
             if (req->HasError()) {
                 throw std::runtime_error("duck_flock: error: " + req->GetError());
             }
